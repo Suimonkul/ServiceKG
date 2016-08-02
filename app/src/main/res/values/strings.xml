@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">ServiceKG</string>
+    <string name="title_activity_detail">Подробнее</string>
+    <string name="res_tab1">объявления</string>
+    <string name="res_tab2">Категории</string>
+    <string name="res_cat1">Компьтерные услуги</string>
+    <string name="res_cat2">Столярно-плотнические услуги</string>
+    <string name="res_cat3">Электро-монтажные услуги</string>
+    <string name="res_cat4">Грузоперевозки</string>
+    <string name="res_cat5">Клининг</string>
+    <string name="res_cat6">Сантехнические услуги</string>
+    <string name="res_cat7">category7</string>
+    <string name="res_cat8">category8</string>
+    <string name="res_cat9">category9</string>
+    <string name="res_cat10">category10</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet,
+        consectetur adipiscing elit, sed do eiusmod tempor in
+        cididunt ut labore
+        et dolore magna aliqua. Ut enim ad minim veniam, quis no
+        strud exercitation ullamco lab
+        oris nisi ut aliquip ex ea commodo consequat. Duis a
+        ute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint o
+        ccaecat cupidatat non proi
+        dent, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis, und
+        e omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam ea
+        que ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam volupt
+        atem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione volupta
+        tem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit, amet, consectetur, adipisci v
+        elit, sed quia non numquam eius modi tempora incidunt, ut labore et dolore magnam aliquam quaerat voluptatem.
+        Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea
+        commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae c
+        onsequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur? At vero eos et accusamus et iusto odi
+        o dignissimos ducimus, qui blanditiis praesentium voluptatum deleniti atque corrupti, quos dolores et quas molesti
+        as excepturi sint, obcaecati cupiditate non provident, similique sunt in culpa, qui officia deserunt mollitia animi,
+        id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum so
+        luta nobis est eligendi optio, cumque nihil impedit, quo minus id, quod maxime placeat, facere possimus, omnis volup
+        tas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitati
+        bus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur
+        a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</string>
+</resources>
