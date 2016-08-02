@@ -43,6 +43,7 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
     String phone;
     String phone_two;
     String phone_three;
+    String order;
     RecyclerView recyclerView;
     ListAbstractAdapter adapter;
     ArrayList<Info> list = new ArrayList<>();
@@ -201,10 +202,13 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
                     phone = jsonObject.getString("phone");
                     phone_two = jsonObject.getString("phone_two");
                     phone_three = jsonObject.getString("phone_three");
+                    order = jsonObject.getString("order");
 
-                    Info info = new Info(id, name, description, phone, phone_two, phone_three);
+                    Info info = new Info(id, name, description, phone, phone_two, phone_three, order);
 
-                    Log.d("PHONES", "TWO = " + phone_two + " THREE = " + phone_three);
+                    String[] phones = {"01 = " + phone + ", 02 = " + phone_two + ", 03 = " + phone_three};
+                    Log.d("GET REQUEST", "GET REQUEST : " + "ID = " + id + ", NAME = " + name + ", DESCRIPTION = "
+                            + description.length() + ", PHONES = " + phones + ", ORDER = " + order);
                     list.add(info);
                 }
             } catch (IOException e) {

@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -35,8 +34,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
     public static class PostHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
-        TextView tvTitle, tvDescription, tvPhone;
-        ImageView call;
+        TextView tvTitle, tvDescription, tvOrder;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -44,6 +42,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
+            tvOrder = (TextView) itemView.findViewById(R.id.tvOrder);
         }
     }
 
@@ -60,8 +59,12 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
     @Override
     public void onBindViewHolder(final PostHolder holder, final int position) {
 
+        String ifNull = "Договорная";
+        String nullable = "null";
+
         holder.tvTitle.setText(list.get(position).getName());
         holder.tvDescription.setText(list.get(position).getDescription());
+        holder.tvOrder.setText("Цена : " + list.get(position).getOrder().replace(nullable, ifNull));
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +74,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
                 intent.putExtra("phone", list.get(position).getPhone());
                 intent.putExtra("phone_two", list.get(position).getPhone_two());
                 intent.putExtra("phone_three", list.get(position).getPhone_three());
+                intent.putExtra("order", list.get(position).getOrder());
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

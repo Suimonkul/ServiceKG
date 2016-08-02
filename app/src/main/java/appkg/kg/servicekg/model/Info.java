@@ -11,17 +11,25 @@ public class Info implements Serializable {
     String description;
     String phone;
     String phone_two;
-
-
+    String order;
     String phone_three;
 
-    public Info(String id, String name, String description, String phone, String phone_two, String phone_three) {
+    public Info(String id, String name, String description, String phone, String phone_two, String phone_three, String order) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.phone = phone;
         this.phone_two = phone_two;
         this.phone_three = phone_three;
+        this.order = order;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
     }
 
     public String getPhone_three() {
@@ -47,7 +55,6 @@ public class Info implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
 
     public String getId() {
         return id;

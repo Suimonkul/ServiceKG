@@ -74,34 +74,34 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
 
         switch (v.getId()) {
             case R.id.cat1:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D0%B5%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=%D0%9A%D0%BE%D0%BC%D0%BF%D1%8C%D1%8E%D1%82%D0%B5%D1%80%D0%BD%D1%8B%D0%B5%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D0%B8&format=json");
                 break;
             case R.id.cat2:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=STL&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=STL&format=json");
                 break;
             case R.id.cat3:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=Minecraft&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Minecraft&format=json");
                 break;
             case R.id.cat4:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=House&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=House&format=json");
                 break;
             case R.id.cat5:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=Dishes&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Dishes&format=json");
                 break;
             case R.id.cat6:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=Button&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Button&format=json");
                 break;
             case R.id.cat7:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.1a68.0.112/api/v1/advert/?category__name=Avto&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Avto&format=json");
                 break;
             case R.id.cat8:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=Repair&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Repair&format=json");
                 break;
             case R.id.cat9:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=Weapon&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Weapon&format=json");
                 break;
             case R.id.cat10:
-                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.101/api/v1/advert/?category__name=Weapon&format=json");
+                UrlChangeDispatcher.getInstance().notifyListeners("http://192.168.0.100/api/v1/advert/?category__name=Weapon&format=json");
                 break;
         }
     }

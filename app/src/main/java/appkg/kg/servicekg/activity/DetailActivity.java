@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import appkg.kg.servicekg.R;
 
 /**
@@ -33,10 +32,9 @@ public class DetailActivity extends AppCompatActivity {
     Intent calling = new Intent(Intent.ACTION_VIEW);
 
 
-
     private TextView tvTitle, tvDescription;
 
-    private String title, description, phone, phone_two, phone_three;
+    private String title, description, phone, phone_two, phone_three, order;
 
 
     @Override
@@ -59,6 +57,7 @@ public class DetailActivity extends AppCompatActivity {
         phone = data.getStringExtra("phone");
         phone_two = data.getStringExtra("phone_two");
         phone_three = data.getStringExtra("phone_three");
+        order = data.getStringExtra("order");
 
     }
 
@@ -71,7 +70,6 @@ public class DetailActivity extends AppCompatActivity {
         tvTitle.setText(title);
         tvDescription.setText(description);
 
-        tvDescription.setLinksClickable(true);
 
     }
 
@@ -80,18 +78,18 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                registerForContextMenu(view);
-                openContextMenu(view);
-                unregisterForContextMenu(view);
-
-
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        assert fab != null;
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                registerForContextMenu(view);
+//                openContextMenu(view);
+//                unregisterForContextMenu(view);
+//
+//
+//            }
+//        });
     }
 
     @Override
