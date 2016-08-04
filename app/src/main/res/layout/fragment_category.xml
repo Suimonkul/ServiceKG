@@ -25,7 +25,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat1" />
+                android:text="@string/res_cat1"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat2"
@@ -35,7 +36,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat2" />
+                android:text="@string/res_cat2"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat3"
@@ -45,7 +47,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat3" />
+                android:text="@string/res_cat3"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat4"
@@ -55,7 +58,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat4" />
+                android:text="@string/res_cat4"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat5"
@@ -65,7 +69,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat5" />
+                android:text="@string/res_cat5"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat6"
@@ -75,7 +80,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat6" />
+                android:text="@string/res_cat6"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat7"
@@ -85,7 +91,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat7" />
+                android:text="@string/res_cat7"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat8"
@@ -95,7 +102,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat8" />
+                android:text="@string/res_cat8"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat9"
@@ -105,7 +113,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat9" />
+                android:text="@string/res_cat9"
+                android:textColor="@color/colorPrimaryDark" />
 
             <Button
                 android:id="@+id/cat10"
@@ -116,7 +125,8 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button"
-                android:text="@string/res_cat10" />
+                android:text="@string/res_cat10"
+                android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
 

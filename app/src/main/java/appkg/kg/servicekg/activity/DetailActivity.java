@@ -3,7 +3,6 @@ package appkg.kg.servicekg.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -11,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +33,8 @@ public class DetailActivity extends AppCompatActivity {
 
 
     private TextView tvTitle, tvDescription;
+
+    ImageView imgFacebook, imgInstagram, imgCall, imgNone;
 
     private String title, description, phone, phone_two, phone_three, order;
 
@@ -67,6 +69,8 @@ public class DetailActivity extends AppCompatActivity {
         tvTitle = (TextView) findViewById(R.id.tvDetailTitle);
         tvDescription = (TextView) findViewById(R.id.tvDetailDescription);
 
+        imgFacebook = (ImageView) findViewById(R.id.imgSocial_001);
+
         tvTitle.setText(title);
         tvDescription.setText(description);
 
@@ -78,18 +82,6 @@ public class DetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        assert fab != null;
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                registerForContextMenu(view);
-//                openContextMenu(view);
-//                unregisterForContextMenu(view);
-//
-//
-//            }
-//        });
     }
 
     @Override

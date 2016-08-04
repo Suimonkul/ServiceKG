@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements UrlChangeListener
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         toolbar.setTitle(R.string.app_name);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.inflateMenu(R.menu.search_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
