@@ -1,6 +1,6 @@
 package appkg.kg.servicekg.activity;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -8,9 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
-
-import java.util.zip.Inflater;
 
 import appkg.kg.servicekg.R;
 import appkg.kg.servicekg.adapter.TabLayoutAdapter;
@@ -30,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements UrlChangeListener
     ViewPager viewPager;
     Toolbar toolbar;
     TabLayout tabLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +88,11 @@ public class MainActivity extends AppCompatActivity implements UrlChangeListener
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.search_opener:
-                        Toast.makeText(MainActivity.this, "Menu", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
                 }
                 return false;

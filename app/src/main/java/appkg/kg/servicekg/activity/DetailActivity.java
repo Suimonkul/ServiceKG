@@ -20,7 +20,7 @@ import appkg.kg.servicekg.R;
  * Created by Suimonkul on 26.06.2016.
  */
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int LAYOUT = R.layout.activity_detail;
     private static final int STYLE = R.style.AppDefault;
@@ -70,9 +70,17 @@ public class DetailActivity extends AppCompatActivity {
         tvDescription = (TextView) findViewById(R.id.tvDetailDescription);
 
         imgFacebook = (ImageView) findViewById(R.id.imgSocial_001);
+        imgInstagram = (ImageView) findViewById(R.id.imgSocial_002);
+        imgNone = (ImageView) findViewById(R.id.img_message);
+        imgCall = (ImageView) findViewById(R.id.img_call);
 
         tvTitle.setText(title);
         tvDescription.setText(description);
+
+        imgFacebook.setOnClickListener(this);
+        imgInstagram.setOnClickListener(this);
+        imgNone.setOnClickListener(this);
+        imgCall.setOnClickListener(this);
 
 
     }
@@ -97,18 +105,18 @@ public class DetailActivity extends AppCompatActivity {
         inflater.inflate(R.menu.context_menu, menu);
         menu.setHeaderTitle("Выберите номер телефона:");
 
-        if (phone.equals("0")) {
+        if (phone.equals("null")) {
             menu.removeItem(FIRST);
         } else {
             menu.add(Menu.NONE, FIRST, 0, PREFIX_PHONE + phone);
         }
-        if (phone_two.equals("0")) {
+        if (phone_two.equals("null")) {
             Toast.makeText(DetailActivity.this, "Phone 2 is null", Toast.LENGTH_SHORT).show();
             menu.removeItem(SECOND);
         } else {
             menu.add(0, SECOND, 0, PREFIX_PHONE + phone_two);
         }
-        if (phone_three.equals("0")) {
+        if (phone_three.equals("null")) {
             Toast.makeText(DetailActivity.this, "Phone 3 is null", Toast.LENGTH_SHORT).show();
             menu.removeItem(THIRD);
         } else {
@@ -137,5 +145,16 @@ public class DetailActivity extends AppCompatActivity {
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.img_call:
+                registerForContextMenu(v);
+                openContextMenu(v);
+                unregisterForContextMenu(v);
+                break;
+        }
     }
 }

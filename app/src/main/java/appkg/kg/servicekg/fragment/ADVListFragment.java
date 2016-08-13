@@ -3,13 +3,13 @@ package appkg.kg.servicekg.fragment;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -23,6 +23,7 @@ import appkg.kg.servicekg.R;
 import appkg.kg.servicekg.adapter.ListAbstractAdapter;
 import appkg.kg.servicekg.dispatcher.UrlChangeDispatcher;
 import appkg.kg.servicekg.dispatcher.UrlChangeListener;
+import appkg.kg.servicekg.helpers.RecyclerScrollListener;
 import appkg.kg.servicekg.helpers.Utils;
 import appkg.kg.servicekg.model.Info;
 import okhttp3.OkHttpClient;
@@ -34,9 +35,8 @@ import okhttp3.Response;
  */
 public class ADVListFragment extends AbstractTabsFragment implements UrlChangeListener {
     private static final int LAYOUT = R.layout.fragment_list;
-    private SwipeRefreshLayout swipeRefreshLayout;
     private DDT ddt;
-
+    private RecyclerScrollListener listener;
     String id;
     String name;
     String description;
@@ -48,7 +48,9 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
     ListAbstractAdapter adapter;
     ArrayList<Info> list = new ArrayList<>();
     View nonConnection;
-    String multUrl;
+    String defUrl;
+    int current_page;
+    Button btnRefresh;
 
 
     public static ADVListFragment getInstance(Context context, String url) {
@@ -58,7 +60,6 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
         fragment.setArguments(args);
         fragment.setContext(context);
         fragment.setTitle(context.getString(R.string.res_tab1));
-
         return fragment;
     }
 
@@ -72,14 +73,19 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ListAbstractAdapter(list);
         nonConnection = view.findViewById(R.id.noInternet);
-        multUrl = getArguments().getString("url");
+        defUrl = getArguments().getString("url");
         recyclerView.setAdapter(adapter);
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.main_swipe);
+        btnRefresh = (Button) view.findViewById(R.id.btnRefresh);
+
+        listener = new RecyclerScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                DDT_load(current_page);
+            }
+        };
+        recyclerView.addOnScrollListener(listener);
         checkConnect();
-        swipeToRefresh();
-        DDTstart();
-
-
+        DDT_load(0);
         return view;
     }
 
@@ -88,50 +94,32 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
         list.clear();
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
-        multUrl = newUrl;
-        new DDT(recyclerView, newUrl).execute();
+        defUrl = newUrl;
+        new DDT(recyclerView, defUrl, current_page).execute();
     }
 
-    private void swipeToRefresh() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (Utils.isConnected(context)) {
-                    list.clear();
-                    adapter.notifyDataSetChanged();
-                    recyclerView.setAdapter(adapter);
-                    DDTstart();
-                } else {
-                    swipeRefreshLayout.setRefreshing(false);
-                    swipeRefreshLayout.setVisibility(View.GONE);
-                    nonConnection.setVisibility(View.VISIBLE);
-                }
-
-            }
-        });
-
-    }
 
     private void checkConnect() {
         if (!Utils.isConnected(getContext())) {
             Toast.makeText(getContext(), "Нет интернет соединения!", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
             nonConnection.setVisibility(View.VISIBLE);
-            nonConnection.findViewById(R.id.btnRefresh).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (Utils.isConnected(context)) {
-                        list.clear();
-                        adapter.notifyDataSetChanged();
-                        recyclerView.setAdapter(adapter);
-                        nonConnection.setVisibility(View.GONE);
-                        swipeRefreshLayout.setVisibility(View.VISIBLE);
-                        DDTstart();
-                    }
+        }
+        btnRefresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Utils.isConnected(context)) {
+                    list.clear();
+                    recyclerView.setAdapter(adapter);
+                    DDT_load(current_page);
+                    new DDT(recyclerView, defUrl, current_page).onPreExecute();
+                    nonConnection.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
 
                 }
-            });
-        }
+
+            }
+        });
     }
 
 
@@ -143,15 +131,15 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
         this.context = context;
     }
 
-    private void DDTstart() {
-        Toast.makeText(context, "Begin Task", Toast.LENGTH_SHORT).show();
+    private void DDT_load(int current_page) {
+        Log.d("CurrentPage", current_page + "ADV");
         if (Utils.isConnected(context)) {
             if (ddt != null) ddt.cancel(true);
-            Toast.makeText(context, "Start Task", Toast.LENGTH_SHORT).show();
-            ddt = new DDT(recyclerView, multUrl);
+            ddt = new DDT(recyclerView, defUrl, current_page);
             ddt.execute();
         } else {
-            swipeRefreshLayout.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.GONE);
+            nonConnection.setVisibility(View.VISIBLE);
 
         }
 
@@ -163,24 +151,28 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
         String url;
         OkHttpClient client = new OkHttpClient();
         JSONObject dataJsonObj = null;
+        int page;
+        String limits = "&limit=5&offset=";
 
-        public DDT(RecyclerView recyclerView, String url) {
+        public DDT(RecyclerView recyclerView, String url, int current_page) {
             this.recyclerView = recyclerView;
             this.url = url;
+            page = current_page;
 
         }
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(context, "Loading . . .", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Download", Toast.LENGTH_SHORT).show();
             super.onPreExecute();
         }
 
         @Override
         protected Void doInBackground(Void... params) {
 
+            Log.d("CurrentPage", url + limits + page);
             Request request = new Request.Builder()
-                    .url(url)
+                    .url(url + limits + page)
                     .build();
 
             Response response = null;
@@ -222,11 +214,10 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
         @Override
         protected void onPostExecute(Void s) {
             if (list.isEmpty()) {
-                swipeRefreshLayout.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.GONE);
                 nonConnection.setVisibility(View.VISIBLE);
             } else if (!isCancelled() && adapter != null) {
-                swipeRefreshLayout.setRefreshing(false);
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.VISIBLE);
                 adapter.notifyDataSetChanged();
             }
 

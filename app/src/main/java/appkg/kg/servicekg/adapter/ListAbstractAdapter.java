@@ -48,7 +48,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
 
     @Override
     public PostHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_list, parent, false);
         PostHolder ph = new PostHolder(view);
         Log.d("TAG", "" + context);
         context = parent.getContext();
