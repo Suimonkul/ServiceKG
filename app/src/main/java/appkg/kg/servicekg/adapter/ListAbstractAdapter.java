@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
     private Context context;
     Activity activity;
 
-
     public ListAbstractAdapter(ArrayList list) {
         this.list = list;
     }
@@ -35,6 +35,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
 
         CardView cardView;
         TextView tvTitle, tvDescription, tvOrder;
+        Button buttonDetail;
 
         public PostHolder(View itemView) {
             super(itemView);
@@ -43,6 +44,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             tvOrder = (TextView) itemView.findViewById(R.id.tvOrder);
+            buttonDetail = (Button)itemView.findViewById(R.id.btnDetail);
         }
     }
 
@@ -57,24 +59,26 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
     }
 
     @Override
-    public void onBindViewHolder(final PostHolder holder, final int position) {
+    public void onBindViewHolder(final PostHolder holder, int position) {
 
         String ifNull = "Договорная";
         String nullable = "null";
 
+
         holder.tvTitle.setText(list.get(position).getName());
         holder.tvDescription.setText(list.get(position).getDescription());
         holder.tvOrder.setText("Цена : " + list.get(position).getOrder().replace(nullable, ifNull));
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        final int finalPosition = position;
+        holder.buttonDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("title", list.get(position).getName());
-                intent.putExtra("desc", list.get(position).getDescription());
-                intent.putExtra("phone", list.get(position).getPhone());
-                intent.putExtra("phone_two", list.get(position).getPhone_two());
-                intent.putExtra("phone_three", list.get(position).getPhone_three());
-                intent.putExtra("order", list.get(position).getOrder());
+                intent.putExtra("title", list.get(finalPosition).getName());
+                intent.putExtra("desc", list.get(finalPosition).getDescription());
+                intent.putExtra("phone", list.get(finalPosition).getPhone());
+                intent.putExtra("phone_two", list.get(finalPosition).getPhone_two());
+                intent.putExtra("phone_three", list.get(finalPosition).getPhone_three());
+                intent.putExtra("order", list.get(finalPosition).getOrder());
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

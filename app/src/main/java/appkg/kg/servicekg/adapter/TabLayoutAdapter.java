@@ -42,10 +42,10 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
     }
 
     private void initTabMap() {
-        String url = "http://192.168.0.105/api/v1/advert/?format=json&limit=5&offset=0";
+        String url = "http://192.168.0.103/api/v1/advert/?format=json";
 //        String url_category = "http://192.168.0.102/api/v1/category/?format=json";
         tabs = new HashMap<>();
-        tabs.put(1, ADVListFragment.getInstance(context, url));
+//        tabs.put(1, ADVListFragment.getInstance(context, url));
         tabs.put(0, CategoryFragment.getInstance(context));
     }
 }

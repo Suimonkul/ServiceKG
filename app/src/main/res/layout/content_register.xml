@@ -24,18 +24,19 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center_horizontal"
-                android:textSize="18dp"
-                android:layout_marginTop="20dp"
+                android:layout_gravity="center_horizontal|center"
+                android:layout_marginTop="25dp"
+                android:gravity="center_horizontal|center"
                 android:text="Оставьте заявку на
-добавление рекламы" />
+добавление рекламы"
+                android:textSize="18dp" />
 
             <EditText
                 android:id="@+id/edName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
                 android:ems="10"
                 android:hint="Ф.И.О"
                 android:inputType="textPersonName" />
@@ -48,6 +49,16 @@
                 android:ems="10"
                 android:hint="Номер телефона"
                 android:inputType="phone" />
+
+
+            <EditText
+                android:id="@+id/edMail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Электронная почта"
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/edTitle"
@@ -65,16 +76,16 @@
                 android:layout_gravity="center_horizontal"
                 android:ems="10"
                 android:hint="Описание услуги"
-                android:inputType="text" />
+                android:inputType="textMultiLine" />
 
-            <EditText
-                android:id="@+id/edMail"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/btnSent"
+                style="?attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:ems="10"
-                android:hint="Электронная почта"
-                android:inputType="textEmailAddress" />
+                android:layout_gravity="end"
+                android:text="Отправить"
+                android:textColor="@color/colorAccent" />
         </LinearLayout>
     </ScrollView>
 

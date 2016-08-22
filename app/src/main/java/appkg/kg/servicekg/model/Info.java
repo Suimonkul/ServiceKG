@@ -6,15 +6,16 @@ import java.io.Serializable;
  * Created by Suimonkul on 26-Jul-16.
  */
 public class Info implements Serializable {
-    String id;
+    int id;
     String name;
     String description;
     String phone;
     String phone_two;
     String order;
     String phone_three;
+    int position;
 
-    public Info(String id, String name, String description, String phone, String phone_two, String phone_three, String order) {
+    public Info(int id, String name, String description, String phone, String phone_two, String phone_three, String order, int position) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -22,6 +23,15 @@ public class Info implements Serializable {
         this.phone_two = phone_two;
         this.phone_three = phone_three;
         this.order = order;
+        this.position = position;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public String getOrder() {
@@ -56,11 +66,11 @@ public class Info implements Serializable {
         this.phone = phone;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

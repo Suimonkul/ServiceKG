@@ -18,6 +18,9 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Random;
 
 import appkg.kg.servicekg.R;
 import appkg.kg.servicekg.adapter.ListAbstractAdapter;
@@ -37,13 +40,15 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
     private static final int LAYOUT = R.layout.fragment_list;
     private DDT ddt;
     private RecyclerScrollListener listener;
-    String id;
+    int id;
     String name;
     String description;
     String phone;
     String phone_two;
     String phone_three;
     String order;
+    int position;
+    int count;
     RecyclerView recyclerView;
     ListAbstractAdapter adapter;
     ArrayList<Info> list = new ArrayList<>();
@@ -51,6 +56,8 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
     String defUrl;
     int current_page;
     Button btnRefresh;
+    int total_count;
+    Random random = new Random();
 
 
     public static ADVListFragment getInstance(Context context, String url) {
@@ -83,7 +90,7 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
                 DDT_load(current_page);
             }
         };
-        recyclerView.addOnScrollListener(listener);
+//        recyclerView.addOnScrollListener(listener);
         checkConnect();
         DDT_load(0);
         return view;
@@ -172,7 +179,7 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
 
             Log.d("CurrentPage", url + limits + page);
             Request request = new Request.Builder()
-                    .url(url + limits + page)
+                    .url(url)
                     .build();
 
             Response response = null;
@@ -182,32 +189,36 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
                 assert response != null;
                 dataJsonObj = new JSONObject(response.body().string());
                 JSONArray jsonArray = dataJsonObj.getJSONArray("objects");
+                JSONObject meta = dataJsonObj.getJSONObject("meta");
+                total_count = meta.getInt("total_count");
 
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
 
-                    id = jsonObject.getString("id");
+                    id = jsonObject.getInt("id");
                     name = jsonObject.getString("name");
                     description = jsonObject.getString("description");
                     phone = jsonObject.getString("phone");
                     phone_two = jsonObject.getString("phone_two");
                     phone_three = jsonObject.getString("phone_three");
                     order = jsonObject.getString("order");
+                    position = jsonObject.getInt("position");
 
-                    Info info = new Info(id, name, description, phone, phone_two, phone_three, order);
-
-                    String[] phones = {"01 = " + phone + ", 02 = " + phone_two + ", 03 = " + phone_three};
-                    Log.d("GET REQUEST", "GET REQUEST : " + "ID = " + id + ", NAME = " + name + ", DESCRIPTION = "
-                            + description.length() + ", PHONES = " + phones + ", ORDER = " + order);
+                    Info info = new Info(id, name, description, phone, phone_two, phone_three, order, position);
                     list.add(info);
+
                 }
+                long seed = System.nanoTime();
+                Collections.shuffle(list, new Random(seed));
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
             return null;
         }
 
@@ -225,5 +236,6 @@ public class ADVListFragment extends AbstractTabsFragment implements UrlChangeLi
 
 
     }
+
 
 }
