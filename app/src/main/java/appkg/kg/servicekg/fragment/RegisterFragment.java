@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -30,9 +31,10 @@ public class RegisterFragment extends AbstractTabsFragment {
 
     SharedPreferences sharedPreferences;
 
-    EditText edfullname, edtitle, eddescription, edmail, ednumber;
+    EditText edfullname, edtitle, eddescription, edmail, edphone, edphoneTwo, edphoneThree, edorder;
     Button btnSent;
-    String fullname, title, description, mail, number;
+    Spinner spinner_category;
+    String full_name, title, description, mail, phone, phone_two, phone_three, order, category;
 
     Context context;
 
@@ -53,70 +55,67 @@ public class RegisterFragment extends AbstractTabsFragment {
         edtitle = (EditText) rootView.findViewById(R.id.edTitle);
         eddescription = (EditText) rootView.findViewById(R.id.edDescription);
         edmail = (EditText) rootView.findViewById(R.id.edMail);
-        ednumber = (EditText) rootView.findViewById(R.id.edNumber);
+        edphone = (EditText) rootView.findViewById(R.id.edNumber);
+        edphoneTwo = (EditText) rootView.findViewById(R.id.edNumberTwo);
+        edphoneThree = (EditText) rootView.findViewById(R.id.edNumberThree);
+        edorder = (EditText) rootView.findViewById(R.id.edOrder);
 
         btnSent = (Button) rootView.findViewById(R.id.btnSent);
         btnSent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initGET();
-                new PostTask().execute();
+                if (initGET()) {
+                    new PostTask().execute();
+                }
+
 //                initLogic();
-//                saveDATA();
             }
         });
-//        loadDATA();
         return rootView;
     }
 
-    private void initGET() {
-        fullname = String.valueOf(edfullname.getText());
-        title = String.valueOf(edtitle.getText());
-        description = String.valueOf(eddescription.getText());
-        mail = String.valueOf(edmail.getText());
-        number = String.valueOf(ednumber.getText());
+    private boolean initGET() {
+        try {
+            full_name = String.valueOf(edfullname.getText());
+            title = String.valueOf(edtitle.getText());
+            description = String.valueOf(eddescription.getText());
+            mail = String.valueOf(edmail.getText());
+            phone = String.valueOf(edphone.getText());
+            if (edphoneTwo.getText().toString().isEmpty()) {
+                phone_two = "null";
+            } else {
+                phone_two = String.valueOf(edphoneTwo.getText());
+            }
+            if (edphoneThree.getText().toString().isEmpty()) {
+                phone_three = "null";
+            } else {
+                phone_three = String.valueOf(edphoneThree.getText());
+            }
+            order = String.valueOf(edorder.getText());
+
+
+//            category = String.valueOf(spinner_category.getId());
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Toast.makeText(context, "Заполните все поля пожалуйста", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private void initLogic() {
         initGET();
         Intent push = new Intent(Intent.ACTION_VIEW);
         String post = "Ф.И.О : " +
-                fullname + "\nЗаголовок : "
+                full_name + "\nЗаголовок : "
                 + title + "\nОписание : " +
                 description + "\nMail : "
-                + mail + "\nНомер тел. : " + number;
+                + mail + "\nНомер тел. : " + phone;
         push.setData(Uri.parse("mailto:ermekturumbekov@gmail.com"));
         push.putExtra(Intent.EXTRA_SUBJECT, "Заявка на добавление рекламы в ServiceKG");
         push.putExtra(Intent.EXTRA_TEXT, post);
         startActivity(push);
-    }
-
-
-//    private void saveDATA() {
-//        initGET();
-//        sharedPreferences = getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor ed = sharedPreferences.edit();
-//        ed.putString("name", fullname);
-//        ed.putString("title", title);
-//        ed.putString("desc", description);
-//        ed.putString("mail", mail);
-//        ed.putString("number", number);
-//        ed.apply();
-//    }
-//
-//    private void loadDATA() {
-//        sharedPreferences = getPreferences(MODE_PRIVATE);
-//        edfullname.setText(sharedPreferences.getString("name", ""));
-//        edtitle.setText(sharedPreferences.getString("title", ""));
-//        eddescription.setText(sharedPreferences.getString("desc", ""));
-//        edmail.setText(sharedPreferences.getString("mail", ""));
-//        ednumber.setText(sharedPreferences.getString("number", ""));
-//    }
-
-    @Override
-    public void onDestroy() {
-//        saveDATA();
-        super.onDestroy();
     }
 
 
@@ -127,35 +126,46 @@ public class RegisterFragment extends AbstractTabsFragment {
     private class PostTask extends AsyncTask<String, String, String> {
 
         @Override
+        protected void onPreExecute() {
+
+            Toast.makeText(context, "Запрос принят, обработка данных ...", Toast.LENGTH_SHORT).show();
+
+            super.onPreExecute();
+        }
+
+        @Override
         protected String doInBackground(String... params) {
 
             OkHttpClient client = new OkHttpClient();
 
             RequestBody formBody = new FormBody.Builder()
-                    .add("name", fullname)
-                    .add("phone", number)
+                    .add("name", full_name)
+                    .add("phone", phone)
                     .add("title", title)
                     .add("description", description)
                     .add("email", mail)
-                    .add("order", "0")
-                    .add("phone_two", "1341")
-                    .add("phone_three", "241")
+                    .add("order", order)
+                    .add("phone_two", phone_two)
+                    .add("phone_three", phone_three)
+                    .add("category_id", "20")
                     .add("position", "100")
                     .build();
             Request request = new Request.Builder()
-                    .url("http://192.168.0.106/register/")
+                    .url("http://192.168.0.100/register/")
                     .post(formBody)
                     .build();
 
             try {
                 Response response = client.newCall(request).execute();
+//                if (response.isSuccessful()) {
+//                    Toast.makeText(context, "Добвляем рекламу ...", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    Toast.makeText(context, "Ошибка", Toast.LENGTH_SHORT).show();
+//                }
                 Log.d("POST", "" + response);
-                // Do something with the response.
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
-            Log.d("POST", "progress");
 
             return null;
         }
@@ -163,7 +173,7 @@ public class RegisterFragment extends AbstractTabsFragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            Toast.makeText(context, "Posted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Ваша реклама добавлена", Toast.LENGTH_SHORT).show();
         }
     }
 }

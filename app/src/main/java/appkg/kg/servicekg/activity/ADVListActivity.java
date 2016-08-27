@@ -34,7 +34,7 @@ import okhttp3.Response;
 /**
  * Created by Suimonkul on 26-Jul-16.
  */
-public class ADVList extends AppCompatActivity {
+public class ADVListActivity extends AppCompatActivity {
     private static final int LAYOUT = R.layout.activity_advlist;
     private DDT ddt;
     private RecyclerScrollListener listener;
@@ -119,7 +119,7 @@ public class ADVList extends AppCompatActivity {
         btnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.isConnected(ADVList.this)) {
+                if (Utils.isConnected(ADVListActivity.this)) {
                     list.clear();
                     recyclerView.setAdapter(adapter);
                     DDT_load(current_page);
@@ -167,7 +167,7 @@ public class ADVList extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(ADVList.this, "Download", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ADVListActivity.this, "Download", Toast.LENGTH_SHORT).show();
             super.onPreExecute();
         }
 

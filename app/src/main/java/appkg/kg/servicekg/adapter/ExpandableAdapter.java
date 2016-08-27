@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import appkg.kg.servicekg.R;
-import appkg.kg.servicekg.activity.ADVList;
+import appkg.kg.servicekg.activity.ADVListActivity;
 
 /**
  * Created by Suimonkul on 04-Aug-16.
@@ -29,7 +29,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     ArrayList list = new ArrayList();
 
-    String url = "http://192.168.0.132/api/v1/advert/?category__name=";
+    String url = "http://192.168.0.100/api/v1/advert/?category__name=";
     String format_json = "&format=json";
 
     public ExpandableAdapter(String[] groups, String[][] children, Context context) {
@@ -96,8 +96,9 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ADVList.class);
+                Intent intent = new Intent(context, ADVListActivity.class);
                 intent.putExtra("url_change", url + position_url + format_json);
+                intent.putExtra("category", position_url);
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

@@ -34,7 +34,8 @@
                 android:layout_marginTop="25dp"
                 android:ems="10"
                 android:hint="Ф.И.О"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:maxLength="10" />
 
             <EditText
                 android:id="@+id/edNumber"
@@ -42,7 +43,25 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:ems="10"
-                android:hint="Номер телефона"
+                android:hint="Номер тел. 1"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/edNumberTwo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Номер тел. 2 (необязательно)"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/edNumberThree"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Номер тел. 3 (необязательно)"
                 android:inputType="phone" />
 
 
@@ -71,7 +90,17 @@
                 android:layout_gravity="center_horizontal"
                 android:ems="10"
                 android:hint="Описание услуги"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:maxLength="1000" />
+
+            <EditText
+                android:id="@+id/edOrder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:ems="10"
+                android:hint="Цена услуги"
+                android:inputType="numberDecimal" />
 
             <Button
                 android:id="@+id/btnSent"
