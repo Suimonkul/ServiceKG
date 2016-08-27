@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">ServiceKG</string>
     <string name="title_activity_detail">Подробнее</string>
-    <string name="res_tab1">объявления</string>
+    <string name="res_tab1">Дать объявление</string>
     <string name="res_tab2">Категории</string>
     <string name="res_cat1">Компьтерные услуги</string>
     <string name="res_cat2">Столярно-плотнические услуги</string>

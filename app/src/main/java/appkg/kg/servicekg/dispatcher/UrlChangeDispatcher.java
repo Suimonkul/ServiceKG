@@ -1,5 +1,7 @@
 package appkg.kg.servicekg.dispatcher;
 
+import android.view.View;
+
 import java.util.ArrayList;
 
 /**
@@ -31,4 +33,6 @@ public class UrlChangeDispatcher {
     private UrlChangeDispatcher() {
 
     }
+
+
 }

@@ -22,8 +22,12 @@
         <activity
             android:name=".activity.DetailActivity"
             android:label="@string/title_activity_detail"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".activity.RegisterActivity"></activity>
+            android:theme="@style/AppDefault" />
+        <activity
+            android:name=".activity.ADVList"
+            android:label="@string/app_name"
+            android:theme="@style/AppDefault" />
+        <activity android:name=".activity.AboutActivity"></activity>
     </application>
 
 </manifest>

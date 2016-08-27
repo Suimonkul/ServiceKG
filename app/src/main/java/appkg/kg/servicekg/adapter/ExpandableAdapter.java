@@ -1,6 +1,8 @@
 package appkg.kg.servicekg.adapter;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import appkg.kg.servicekg.R;
-import appkg.kg.servicekg.dispatcher.UrlChangeDispatcher;
+import appkg.kg.servicekg.activity.ADVList;
 
 /**
  * Created by Suimonkul on 04-Aug-16.
@@ -22,10 +24,12 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
     private String[] groups;
     private String[][] children;
     private Context context;
+    Activity activity;
+
 
     ArrayList list = new ArrayList();
 
-    String url = "http://192.168.0.103/api/v1/advert/?category__name=";
+    String url = "http://192.168.0.132/api/v1/advert/?category__name=";
     String format_json = "&format=json";
 
     public ExpandableAdapter(String[] groups, String[][] children, Context context) {
@@ -86,17 +90,22 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
         }
 
         holder.button.setText(getChild(groupPosition, childPosition).toString());
+        activity = (Activity) context;
 
         final String position_url = getChild(groupPosition, childPosition).toString();
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UrlChangeDispatcher.getInstance().notifyListeners(url + position_url + format_json);
+                Intent intent = new Intent(context, ADVList.class);
+                intent.putExtra("url_change", url + position_url + format_json);
+                context.startActivity(intent);
+                activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
         return convertView;
     }
+
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {

@@ -10,7 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +20,7 @@ import appkg.kg.servicekg.R;
  * Created by Suimonkul on 26.06.2016.
  */
 
-public class DetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class DetailActivity extends AppCompatActivity {
 
     private static final int LAYOUT = R.layout.activity_detail;
     private static final int STYLE = R.style.AppDefault;
@@ -32,11 +32,10 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     Intent calling = new Intent(Intent.ACTION_VIEW);
 
 
-    private TextView tvTitle, tvDescription;
+    private TextView tvName, tvDescription, tvCategory;
+    private Button btnCall, btnOrder, btnAvatar;
 
-    ImageView imgFacebook, imgInstagram, imgCall, imgNone;
-
-    private String title, description, phone, phone_two, phone_three, order;
+    private String name, description, phone, phone_two, phone_three, order, category;
 
 
     @Override
@@ -44,44 +43,50 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setTheme(STYLE);
         setContentView(LAYOUT);
-
+        initDefApp();
         initLogic();
         initView();
-        initDefApp();
+
 
     }
 
     private void initLogic() {
         Intent data = getIntent();
 
-        title = data.getStringExtra("title");
+        name = data.getStringExtra("name");
         description = data.getStringExtra("desc");
         phone = data.getStringExtra("phone");
         phone_two = data.getStringExtra("phone_two");
         phone_three = data.getStringExtra("phone_three");
         order = data.getStringExtra("order");
+        category = data.getStringExtra("category");
 
     }
 
 
     private void initView() {
 
-        tvTitle = (TextView) findViewById(R.id.tvDetailTitle);
+        tvName = (TextView) findViewById(R.id.tvName);
         tvDescription = (TextView) findViewById(R.id.tvDetailDescription);
+        tvCategory = (TextView) findViewById(R.id.tvCategory);
+        btnAvatar = (Button) findViewById(R.id.btnAvatar);
+        btnCall = (Button) findViewById(R.id.btnCall);
+        btnOrder = (Button) findViewById(R.id.btnOrder);
 
-        imgFacebook = (ImageView) findViewById(R.id.imgSocial_001);
-        imgInstagram = (ImageView) findViewById(R.id.imgSocial_002);
-        imgNone = (ImageView) findViewById(R.id.img_message);
-        imgCall = (ImageView) findViewById(R.id.img_call);
-
-        tvTitle.setText(title);
+        tvName.setText(name);
         tvDescription.setText(description);
+        tvCategory.setText(category);
+        btnAvatar.setText(name.toUpperCase());
+        btnOrder.setText(order);
 
-        imgFacebook.setOnClickListener(this);
-        imgInstagram.setOnClickListener(this);
-        imgNone.setOnClickListener(this);
-        imgCall.setOnClickListener(this);
-
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                registerForContextMenu(v);
+                openContextMenu(v);
+                unregisterForContextMenu(v);
+            }
+        });
 
     }
 
@@ -112,6 +117,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -162,14 +168,4 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         return false;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.img_call:
-                registerForContextMenu(v);
-                openContextMenu(v);
-                unregisterForContextMenu(v);
-                break;
-        }
-    }
 }

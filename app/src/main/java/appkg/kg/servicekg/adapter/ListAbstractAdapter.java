@@ -44,7 +44,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             tvOrder = (TextView) itemView.findViewById(R.id.tvOrder);
-            buttonDetail = (Button)itemView.findViewById(R.id.btnDetail);
+            buttonDetail = (Button) itemView.findViewById(R.id.btnDetail);
         }
     }
 
@@ -65,7 +65,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
         String nullable = "null";
 
 
-        holder.tvTitle.setText(list.get(position).getName());
+        holder.tvTitle.setText(list.get(position).getTitle());
         holder.tvDescription.setText(list.get(position).getDescription());
         holder.tvOrder.setText("Цена : " + list.get(position).getOrder().replace(nullable, ifNull));
         final int finalPosition = position;
@@ -73,12 +73,13 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, DetailActivity.class);
-                intent.putExtra("title", list.get(finalPosition).getName());
+                intent.putExtra("title", list.get(finalPosition).getTitle());
                 intent.putExtra("desc", list.get(finalPosition).getDescription());
                 intent.putExtra("phone", list.get(finalPosition).getPhone());
                 intent.putExtra("phone_two", list.get(finalPosition).getPhone_two());
                 intent.putExtra("phone_three", list.get(finalPosition).getPhone_three());
                 intent.putExtra("order", list.get(finalPosition).getOrder());
+                intent.putExtra("name", list.get(finalPosition).getName());
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

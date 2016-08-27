@@ -11,13 +11,11 @@ import android.view.MenuItem;
 
 import appkg.kg.servicekg.R;
 import appkg.kg.servicekg.adapter.TabLayoutAdapter;
-import appkg.kg.servicekg.dispatcher.UrlChangeDispatcher;
-import appkg.kg.servicekg.dispatcher.UrlChangeListener;
 
 /**
  * Created by Suimonkul on 26.06.2016.
  */
-public class MainActivity extends AppCompatActivity implements UrlChangeListener {
+public class MainActivity extends AppCompatActivity {
 
     private static final int LAYOUT = R.layout.activity_main;
     private static final int STYLE = R.style.AppDefault;
@@ -35,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements UrlChangeListener
         setTheme(STYLE);
         setContentView(LAYOUT);
 
-        UrlChangeDispatcher.getInstance().addListener(this);
         initTabs();
         initToolbar();
 
@@ -64,13 +61,6 @@ public class MainActivity extends AppCompatActivity implements UrlChangeListener
         }, 800);
     }
 
-    @Override
-    public void onUrlChanged(String newUrl) {
-        TabLayout.Tab selectTab = tabLayout.getTabAt(1);
-        if (selectTab != null) {
-            selectTab.select();
-        }
-    }
 
     private void initTabs() {
         viewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -84,13 +74,13 @@ public class MainActivity extends AppCompatActivity implements UrlChangeListener
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         toolbar.setTitle(R.string.app_name);
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        toolbar.inflateMenu(R.menu.search_menu);
+        toolbar.inflateMenu(R.menu.about_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.search_opener:
-                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                    case R.id.about_opener:
+                        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;

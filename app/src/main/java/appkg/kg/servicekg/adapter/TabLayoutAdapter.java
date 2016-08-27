@@ -8,9 +8,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 
-import appkg.kg.servicekg.fragment.ADVListFragment;
 import appkg.kg.servicekg.fragment.AbstractTabsFragment;
 import appkg.kg.servicekg.fragment.CategoryFragment;
+import appkg.kg.servicekg.fragment.RegisterFragment;
 
 /**
  * Created by Suimonkul on 13.07.2016.
@@ -45,7 +45,7 @@ public class TabLayoutAdapter extends FragmentPagerAdapter {
         String url = "http://192.168.0.103/api/v1/advert/?format=json";
 //        String url_category = "http://192.168.0.102/api/v1/category/?format=json";
         tabs = new HashMap<>();
-//        tabs.put(1, ADVListFragment.getInstance(context, url));
         tabs.put(0, CategoryFragment.getInstance(context));
+        tabs.put(1, RegisterFragment.getInstance(context));
     }
 }

@@ -7,31 +7,31 @@ import java.io.Serializable;
  */
 public class Info implements Serializable {
     int id;
-    String name;
+    String title;
     String description;
     String phone;
     String phone_two;
     String order;
     String phone_three;
-    int position;
+    String name;
 
-    public Info(int id, String name, String description, String phone, String phone_two, String phone_three, String order, int position) {
+    public Info(int id, String title, String description, String phone, String phone_two, String phone_three, String order, String name) {
         this.id = id;
-        this.name = name;
+        this.title = title;
         this.description = description;
         this.phone = phone;
         this.phone_two = phone_two;
         this.phone_three = phone_three;
         this.order = order;
-        this.position = position;
+        this.name = name;
     }
 
-    public int getPosition() {
-        return position;
+    public String getName() {
+        return name;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getOrder() {
@@ -74,12 +74,12 @@ public class Info implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
