@@ -144,14 +144,14 @@ public class RegisterFragment extends AbstractTabsFragment {
                     .add("title", title)
                     .add("description", description)
                     .add("email", mail)
-                    .add("order", order)
+                    .add("order", order+" сом")
                     .add("phone_two", phone_two)
                     .add("phone_three", phone_three)
                     .add("category_id", "20")
                     .add("position", "100")
                     .build();
             Request request = new Request.Builder()
-                    .url("http://192.168.0.100/register/")
+                    .url("http://192.168.0.105/register/")
                     .post(formBody)
                     .build();
 
