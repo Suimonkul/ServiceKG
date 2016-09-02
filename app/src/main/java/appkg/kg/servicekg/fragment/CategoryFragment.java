@@ -4,14 +4,26 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import appkg.kg.servicekg.R;
-import appkg.kg.servicekg.adapter.ExpandableAdapter;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Suimonkul on 28-Jul-16.
@@ -80,9 +92,7 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(LAYOUT, container, false);
 
-
-//
-
+        new DDTCategory().execute();
         return rootView;
     }
 
@@ -90,9 +100,9 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        lv = (ExpandableListView) view.findViewById(R.id.expListView);
-        lv.setAdapter(new ExpandableAdapter(groups, children, context));
-        lv.setGroupIndicator(null);
+//        lv = (ExpandableListView) view.findViewById(R.id.expListView);
+//        lv.setAdapter(new ExpandableAdapter(groups, children, context));
+//        lv.setGroupIndicator(null);
 
     }
 
@@ -106,9 +116,59 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
     }
 
     private class DDTCategory extends AsyncTask<Void, Void, Void> {
+        RecyclerView recyclerView;
+        String url;
+        OkHttpClient client = new OkHttpClient();
+        JSONObject dataJsonObj = null;
+
+        String category;
+        int id;
+        String subCategory;
+        JSONArray childCategoriesArray;
+
 
         @Override
         protected Void doInBackground(Void... params) {
+
+            Request request = new Request.Builder()
+                    .url("http://192.168.0.107/api/v1/category/?format=json")
+                    .build();
+
+            Response response = null;
+            HashMap<String, ArrayList<String>> categories = new HashMap<>();
+            ArrayList<String> subcategories = new ArrayList<>();
+
+            try {
+                response = client.newCall(request).execute();
+                assert response != null;
+                dataJsonObj = new JSONObject(response.body().string());
+                JSONArray jsonArray = dataJsonObj.getJSONArray("objects");
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                    category = jsonObject.getString("name");
+                    childCategoriesArray = jsonObject.getJSONArray("childCategories");
+
+                    for (int a = 0; i < childCategoriesArray.length(); a++) {
+                        JSONObject jsonObjectChild = childCategoriesArray.getJSONObject(a);
+                        subCategory = jsonObjectChild.getString("name");
+
+                        subcategories.add(subCategory);
+                    }
+
+                    categories.put(category, subcategories);
+                    subcategories = new ArrayList<>();
+                }
+
+                Log.d("CATEGORY", subCategory + "\n" + category);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
             return null;
         }
     }

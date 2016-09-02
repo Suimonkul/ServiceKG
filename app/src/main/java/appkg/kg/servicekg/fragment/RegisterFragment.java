@@ -60,6 +60,7 @@ public class RegisterFragment extends AbstractTabsFragment {
         edphoneThree = (EditText) rootView.findViewById(R.id.edNumberThree);
         edorder = (EditText) rootView.findViewById(R.id.edOrder);
 
+
         btnSent = (Button) rootView.findViewById(R.id.btnSent);
         btnSent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,7 +145,7 @@ public class RegisterFragment extends AbstractTabsFragment {
                     .add("title", title)
                     .add("description", description)
                     .add("email", mail)
-                    .add("order", order+" сом")
+                    .add("order", order + " сом")
                     .add("phone_two", phone_two)
                     .add("phone_three", phone_three)
                     .add("category_id", "20")

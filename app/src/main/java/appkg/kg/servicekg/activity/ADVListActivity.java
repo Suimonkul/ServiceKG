@@ -236,7 +236,6 @@ public class ADVListActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        new DDT(recyclerView, "", 0).cancel(true);
         Log.d("TAG", "Task Stop Back");
         finish();
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
