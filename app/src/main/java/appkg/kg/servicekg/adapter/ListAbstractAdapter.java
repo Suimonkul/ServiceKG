@@ -26,6 +26,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
     ArrayList<Info> list;
     private Context context;
     Activity activity;
+    String cat;
 
     public ListAbstractAdapter(ArrayList list) {
         this.list = list;
@@ -53,21 +54,21 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item_list, parent, false);
         PostHolder ph = new PostHolder(view);
         Log.d("TAG", "" + context);
+
         context = parent.getContext();
         activity = (Activity) context;
+        Intent intent = activity.getIntent();
+        cat = intent.getStringExtra("category");
         return ph;
     }
 
     @Override
     public void onBindViewHolder(final PostHolder holder, int position) {
 
-        String ifNull = "Договорная";
-        String nullable = "null";
-
 
         holder.tvTitle.setText(list.get(position).getTitle());
         holder.tvDescription.setText(list.get(position).getDescription());
-        holder.tvOrder.setText("Цена : " + list.get(position).getOrder().replace(nullable, ifNull));
+        holder.tvOrder.setText("Цена : " + list.get(position).getOrder()+" сом");
         final int finalPosition = position;
         holder.buttonDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +81,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
                 intent.putExtra("phone_three", list.get(finalPosition).getPhone_three());
                 intent.putExtra("order", list.get(finalPosition).getOrder());
                 intent.putExtra("name", list.get(finalPosition).getName());
+                intent.putExtra("category", cat);
                 context.startActivity(intent);
                 activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 

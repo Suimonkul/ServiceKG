@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import appkg.kg.servicekg.R;
+import appkg.kg.servicekg.adapter.ExpandableAdapter;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -83,6 +84,7 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
                         "4-,5-к. квартиры",
                         "Гостинницы"
                 }
+
         };
         super.onCreate(savedInstanceState);
     }
@@ -91,7 +93,6 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(LAYOUT, container, false);
-
         new DDTCategory().execute();
         return rootView;
     }
@@ -100,9 +101,9 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        lv = (ExpandableListView) view.findViewById(R.id.expListView);
-//        lv.setAdapter(new ExpandableAdapter(groups, children, context));
-//        lv.setGroupIndicator(null);
+        lv = (ExpandableListView) view.findViewById(R.id.expListView);
+        lv.setAdapter(new ExpandableAdapter(groups, children, context));
+        lv.setGroupIndicator(null);
 
     }
 
@@ -120,7 +121,6 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
         String url;
         OkHttpClient client = new OkHttpClient();
         JSONObject dataJsonObj = null;
-
         String category;
         int id;
         String subCategory;
@@ -131,7 +131,7 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
         protected Void doInBackground(Void... params) {
 
             Request request = new Request.Builder()
-                    .url("http://192.168.0.107/api/v1/category/?format=json")
+                    .url("http://192.168.0.114/api/v1/category/?format=json")
                     .build();
 
             Response response = null;
@@ -146,19 +146,20 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-
                     category = jsonObject.getString("name");
                     childCategoriesArray = jsonObject.getJSONArray("childCategories");
+
 
                     for (int a = 0; i < childCategoriesArray.length(); a++) {
                         JSONObject jsonObjectChild = childCategoriesArray.getJSONObject(a);
                         subCategory = jsonObjectChild.getString("name");
-
                         subcategories.add(subCategory);
+
                     }
 
-                    categories.put(category, subcategories);
                     subcategories = new ArrayList<>();
+                    categories.put(category, subcategories);
+
                 }
 
                 Log.d("CATEGORY", subCategory + "\n" + category);
@@ -168,7 +169,6 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
     }

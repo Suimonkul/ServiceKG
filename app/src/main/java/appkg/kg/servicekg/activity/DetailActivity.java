@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,7 +36,8 @@ public class DetailActivity extends AppCompatActivity {
     private TextView tvName, tvDescription, tvCategory;
     private Button btnCall, btnOrder, btnAvatar;
 
-    private String name, description, phone, phone_two, phone_three, order, category;
+    private String name, description, phone, phone_two, phone_three, category;
+    private int order;
 
 
     @Override
@@ -58,8 +60,10 @@ public class DetailActivity extends AppCompatActivity {
         phone = data.getStringExtra("phone");
         phone_two = data.getStringExtra("phone_two");
         phone_three = data.getStringExtra("phone_three");
-        order = data.getStringExtra("order");
+        order = data.getIntExtra("order", 0);
         category = data.getStringExtra("category");
+
+        Log.d("Cat123",""+category);
 
     }
 
@@ -77,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
         tvDescription.setText(description);
         tvCategory.setText(category);
         btnAvatar.setText(name.toUpperCase());
-        btnOrder.setText(order);
+        btnOrder.setText(String.valueOf(order)+" сом");
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +91,7 @@ public class DetailActivity extends AppCompatActivity {
                 unregisterForContextMenu(v);
             }
         });
+
 
     }
 

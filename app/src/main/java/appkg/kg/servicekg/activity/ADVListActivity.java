@@ -44,8 +44,9 @@ public class ADVListActivity extends AppCompatActivity {
     String phone;
     String phone_two;
     String phone_three;
-    String order;
+    int order;
     String name;
+    boolean active;
     int position;
     RecyclerView recyclerView;
     ListAbstractAdapter adapter;
@@ -66,6 +67,7 @@ public class ADVListActivity extends AppCompatActivity {
 
         Intent getUrl = getIntent();
         String newUrl = getUrl.getStringExtra("url_change");
+
 
         UrlChanged(newUrl);
         checkConnect();
@@ -174,9 +176,9 @@ public class ADVListActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            Log.d("CurrentPage", url);
+//            Log.d("CurrentPage", url);
             Request request = new Request.Builder()
-                    .url(url)
+                    .url("http://192.168.0.114/api/v1/advert/?format=json")
                     .build();
 
             Response response = null;
@@ -195,16 +197,20 @@ public class ADVListActivity extends AppCompatActivity {
 
 
                     id = jsonObject.getInt("id");
+                    active = jsonObject.getBoolean("active");
                     title = jsonObject.getString("title");
                     description = jsonObject.getString("description");
                     phone = jsonObject.getString("phone");
                     phone_two = jsonObject.getString("phone_two");
                     phone_three = jsonObject.getString("phone_three");
-                    order = jsonObject.getString("order");
+                    order = jsonObject.getInt("order");
                     name = jsonObject.getString("name");
 
-                    Info info = new Info(id, title, description, phone, phone_two, phone_three, order, name);
-                    list.add(info);
+                    if (active) {
+                        Info info = new Info(id, title, description, phone, phone_two, phone_three, order, name);
+                        list.add(info);
+                    }
+
 
                 }
                 long seed = System.nanoTime();

@@ -11,11 +11,11 @@ public class Info implements Serializable {
     String description;
     String phone;
     String phone_two;
-    String order;
+    int order;
     String phone_three;
     String name;
 
-    public Info(int id, String title, String description, String phone, String phone_two, String phone_three, String order, String name) {
+    public Info(int id, String title, String description, String phone, String phone_two, String phone_three, int order, String name) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -34,11 +34,11 @@ public class Info implements Serializable {
         this.name = name;
     }
 
-    public String getOrder() {
+    public int getOrder() {
         return order;
     }
 
-    public void setOrder(String order) {
+    public void setOrder(int order) {
         this.order = order;
     }
 

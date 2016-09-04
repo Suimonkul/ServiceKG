@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.about_opener:
-                        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                        Intent intent = new Intent(MainActivity.this, ADVListActivity.class);
                         startActivity(intent);
                         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                         break;
