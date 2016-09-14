@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
         <shape android:shape="oval">
-            <solid android:color="@color/white" />
+            <gradient android:endColor="@color/colorAccentPro" android:startColor="@color/colorAccent" />
             <stroke android:width="2dp" android:color="@color/colorPrimary" />
         </shape>
     </item>

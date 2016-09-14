@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         this.doubleBackToExitPressedOnce = true;
         TabLayout.Tab backPressed = tabLayout.getTabAt(0);
+        assert backPressed != null;
         backPressed.select();
 //        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
 
@@ -72,8 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolBar);
-        toolbar.setTitle(R.string.app_name);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
         toolbar.inflateMenu(R.menu.about_menu);
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override

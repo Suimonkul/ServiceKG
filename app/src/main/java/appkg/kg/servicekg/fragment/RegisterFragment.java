@@ -2,8 +2,6 @@ package appkg.kg.servicekg.fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,12 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.io.IOException;
 
 import appkg.kg.servicekg.R;
+import appkg.kg.servicekg.activity.SelectCategoryActivity;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -29,12 +29,11 @@ public class RegisterFragment extends AbstractTabsFragment {
 
     private static final int LAYOUT = R.layout.fragment_register;
 
-    SharedPreferences sharedPreferences;
 
-    EditText edfullname, edtitle, eddescription, edmail, edphone, edphoneTwo, edphoneThree, edorder;
-    Button btnSent;
-    Spinner spinner_category;
-    String full_name, title, description, mail, phone, phone_two, phone_three, order, category;
+    EditText edfullname, edtitle, eddescription, edphone, edphoneTwo, edphoneThree, edorder;
+    Button btnSent, btnCategory;
+    String full_name, title, description, mail, phone, phone_two, phone_three, order;
+    int category, result_id;
 
     Context context;
 
@@ -54,11 +53,20 @@ public class RegisterFragment extends AbstractTabsFragment {
         edfullname = (EditText) rootView.findViewById(R.id.edName);
         edtitle = (EditText) rootView.findViewById(R.id.edTitle);
         eddescription = (EditText) rootView.findViewById(R.id.edDescription);
-        edmail = (EditText) rootView.findViewById(R.id.edMail);
         edphone = (EditText) rootView.findViewById(R.id.edNumber);
         edphoneTwo = (EditText) rootView.findViewById(R.id.edNumberTwo);
         edphoneThree = (EditText) rootView.findViewById(R.id.edNumberThree);
         edorder = (EditText) rootView.findViewById(R.id.edOrder);
+
+        btnCategory = (Button) rootView.findViewById(R.id.btnSelectCategory);
+        btnCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent selectData = new Intent(context, SelectCategoryActivity.class);
+                selectData.putExtra("select", true);
+                startActivityForResult(selectData, 1);
+            }
+        });
 
 
         btnSent = (Button) rootView.findViewById(R.id.btnSent);
@@ -68,19 +76,35 @@ public class RegisterFragment extends AbstractTabsFragment {
                 if (initGET()) {
                     new PostTask().execute();
                 }
-
-//                initLogic();
             }
         });
+
+//        logUser();
         return rootView;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) {
+            return;
+        }
+        result_id = data.getIntExtra("id", Integer.parseInt(null));
+
+    }
+
+    private void logUser() {
+        Crashlytics.setUserIdentifier("12345");
+        Crashlytics.setUserEmail("suimonkul311200@gmail.com");
+        Crashlytics.setUserName("Test User");
+    }
+
     private boolean initGET() {
+
         try {
             full_name = String.valueOf(edfullname.getText());
             title = String.valueOf(edtitle.getText());
             description = String.valueOf(eddescription.getText());
-            mail = String.valueOf(edmail.getText());
             phone = String.valueOf(edphone.getText());
             if (edphoneTwo.getText().toString().isEmpty()) {
                 phone_two = "null";
@@ -93,9 +117,7 @@ public class RegisterFragment extends AbstractTabsFragment {
                 phone_three = String.valueOf(edphoneThree.getText());
             }
             order = String.valueOf(edorder.getText());
-
-
-//            category = String.valueOf(spinner_category.getId());
+            category = result_id;
         } catch (NullPointerException e) {
             e.printStackTrace();
             Toast.makeText(context, "Заполните все поля пожалуйста", Toast.LENGTH_SHORT).show();
@@ -104,21 +126,6 @@ public class RegisterFragment extends AbstractTabsFragment {
 
         return true;
     }
-
-    private void initLogic() {
-        initGET();
-        Intent push = new Intent(Intent.ACTION_VIEW);
-        String post = "Ф.И.О : " +
-                full_name + "\nЗаголовок : "
-                + title + "\nОписание : " +
-                description + "\nMail : "
-                + mail + "\nНомер тел. : " + phone;
-        push.setData(Uri.parse("mailto:ermekturumbekov@gmail.com"));
-        push.putExtra(Intent.EXTRA_SUBJECT, "Заявка на добавление рекламы в ServiceKG");
-        push.putExtra(Intent.EXTRA_TEXT, post);
-        startActivity(push);
-    }
-
 
     public void setContext(Context context) {
         this.context = context;
@@ -142,27 +149,23 @@ public class RegisterFragment extends AbstractTabsFragment {
             RequestBody formBody = new FormBody.Builder()
                     .add("name", full_name)
                     .add("phone", phone)
+                    .add("active", "false")
                     .add("title", title)
                     .add("description", description)
-                    .add("email", mail)
-                    .add("order", order + " сом")
+                    .add("order", order)
                     .add("phone_two", phone_two)
                     .add("phone_three", phone_three)
-                    .add("category_id", "20")
+                    .add("category_id", "1")
                     .add("position", "100")
                     .build();
             Request request = new Request.Builder()
-                    .url("http://192.168.0.105/register/")
+                    .url("https://guarded-retreat-76092.herokuapp.com/register")
                     .post(formBody)
                     .build();
 
             try {
                 Response response = client.newCall(request).execute();
-//                if (response.isSuccessful()) {
-//                    Toast.makeText(context, "Добвляем рекламу ...", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    Toast.makeText(context, "Ошибка", Toast.LENGTH_SHORT).show();
-//                }
+
                 Log.d("POST", "" + response);
             } catch (IOException e) {
                 e.printStackTrace();

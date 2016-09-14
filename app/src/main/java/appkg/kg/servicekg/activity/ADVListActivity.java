@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -52,10 +53,12 @@ public class ADVListActivity extends AppCompatActivity {
     ListAbstractAdapter adapter;
     ArrayList<Info> list = new ArrayList<>();
     View nonConnection;
+    View progress;
     String defUrl;
     int current_page;
     Button btnRefresh;
     int total_count;
+    ProgressBar progressBar;
 
 
     @Override
@@ -65,13 +68,29 @@ public class ADVListActivity extends AppCompatActivity {
         initToolbar();
         initViews();
 
+        Info map = new Info(1, "Title", "Lorem Ipsum " +
+                "is simply dummy text of the p" +
+                "rinting and typesetting industr" +
+                "y. Lorem Ipsum has been the industry" +
+                "'s standard dummy text ever since the 1500" +
+                "s, when an unknown printer took a galley of t" +
+                "ype and scrambled it to make a type specimen b" +
+                "ook. It has survived not only five centuries," +
+                " but also the leap into electronic typesetting," +
+                " remaining essentially unchanged. It was popularised" +
+                " in the 1960s with the release of Letraset sheets conta" +
+                "ining Lorem Ipsum passages, and more recently with deskto" +
+                "p publishing software like Aldus PageMaker including versi" +
+                "ons of Lorem Ipsum.", "708517908", "708198686", "null", 2000, "Name");
+        list.add(map);
+
         Intent getUrl = getIntent();
         String newUrl = getUrl.getStringExtra("url_change");
 
 
-        UrlChanged(newUrl);
+//        UrlChanged(newUrl);
         checkConnect();
-//        DDT_load(0);
+        DDT_load(0);
     }
 
     private void initViews() {
@@ -81,6 +100,8 @@ public class ADVListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         adapter = new ListAbstractAdapter(list);
         nonConnection = findViewById(R.id.noInternet);
+        progress = findViewById(R.id.progress);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         recyclerView.setAdapter(adapter);
         btnRefresh = (Button) findViewById(R.id.btnRefresh);
         listener = new RecyclerScrollListener(layoutManager) {
@@ -95,6 +116,8 @@ public class ADVListActivity extends AppCompatActivity {
     private void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarAdv);
         setSupportActionBar(toolbar);
+        assert toolbar != null;
+        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,7 +126,7 @@ public class ADVListActivity extends AppCompatActivity {
 
 
     public void UrlChanged(String newUrl) {
-        Log.d("URLCHANGE", newUrl);
+//        Log.d("URLCHANGE", newUrl);
         list.clear();
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
@@ -125,9 +148,9 @@ public class ADVListActivity extends AppCompatActivity {
                     list.clear();
                     recyclerView.setAdapter(adapter);
                     DDT_load(current_page);
-                    new DDT(recyclerView, defUrl, current_page).onPreExecute();
+                    new DDT(recyclerView, defUrl, current_page);
                     nonConnection.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
 
                 }
 
@@ -170,6 +193,7 @@ public class ADVListActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             Toast.makeText(ADVListActivity.this, "Download", Toast.LENGTH_SHORT).show();
+            progress.setVisibility(View.VISIBLE);
             super.onPreExecute();
         }
 
@@ -178,7 +202,7 @@ public class ADVListActivity extends AppCompatActivity {
 
 //            Log.d("CurrentPage", url);
             Request request = new Request.Builder()
-                    .url("http://192.168.0.114/api/v1/advert/?format=json")
+                    .url("https://guarded-retreat-76092.herokuapp.com/api/v1/advert/?format=json")
                     .build();
 
             Response response = null;
@@ -195,18 +219,18 @@ public class ADVListActivity extends AppCompatActivity {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-
-                    id = jsonObject.getInt("id");
                     active = jsonObject.getBoolean("active");
-                    title = jsonObject.getString("title");
-                    description = jsonObject.getString("description");
-                    phone = jsonObject.getString("phone");
-                    phone_two = jsonObject.getString("phone_two");
-                    phone_three = jsonObject.getString("phone_three");
-                    order = jsonObject.getInt("order");
-                    name = jsonObject.getString("name");
 
                     if (active) {
+                        id = jsonObject.getInt("id");
+                        title = jsonObject.getString("title");
+                        description = jsonObject.getString("description");
+                        phone = jsonObject.getString("phone");
+                        phone_two = jsonObject.getString("phone_two");
+                        phone_three = jsonObject.getString("phone_three");
+                        order = jsonObject.getInt("order");
+                        name = jsonObject.getString("name");
+
                         Info info = new Info(id, title, description, phone, phone_two, phone_three, order, name);
                         list.add(info);
                     }
@@ -216,9 +240,7 @@ public class ADVListActivity extends AppCompatActivity {
                 long seed = System.nanoTime();
                 Collections.shuffle(list, new Random(seed));
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
@@ -229,8 +251,10 @@ public class ADVListActivity extends AppCompatActivity {
         protected void onPostExecute(Void s) {
             if (list.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
+                progress.setVisibility(View.GONE);
                 nonConnection.setVisibility(View.VISIBLE);
             } else if (!isCancelled() && adapter != null) {
+                progress.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 adapter.notifyDataSetChanged();
             }
@@ -244,7 +268,7 @@ public class ADVListActivity extends AppCompatActivity {
     public void onBackPressed() {
         Log.d("TAG", "Task Stop Back");
         finish();
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
         super.onBackPressed();
     }
 

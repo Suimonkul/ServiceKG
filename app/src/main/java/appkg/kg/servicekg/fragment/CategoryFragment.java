@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import org.json.JSONArray;
@@ -29,18 +28,15 @@ import okhttp3.Response;
 /**
  * Created by Suimonkul on 28-Jul-16.
  */
-public class CategoryFragment extends AbstractTabsFragment implements View.OnClickListener {
+public class CategoryFragment extends AbstractTabsFragment {
     private static final int LAYOUT = R.layout.fragment_category;
 
     ExpandableListView lv;
     private String[] groups;
     private String[][] children;
 
-    Button cat1, cat2, cat3, cat4, cat5, cat6, cat7, cat8, cat9, cat10;
 
     Context context;
-
-    String urlNew = "";
 
     public static CategoryFragment getInstance(Context context) {
         Bundle args = new Bundle();
@@ -55,37 +51,71 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        groups = new String[]{"Услуги", "Сдаю", "Красота и здоровье", "Ищу работу", "Торжества", "Обучение",
-                "Бюро находок", "Сниму", "Требуется"};
 
-        children = new String[][]{
-                {"Транспортные услуги",
-                        "Установка антенн",
-                        "Ремонт техники",
-                        "Ремонт. Отделка",
-                        "Строительство",
-                        "Сварка. Сантехника",
-                        "Электроработы",
-                        "Плотницкие",
-                        "Работа с металлом",
-                        "Памятники",
-                        "Юридические",
-                        "Риэлтерские",
-                        "Языковые переводы",
-                        "Швейные",
-                        "Медицинские",
-                        "Работа по дому",
-                        "Отдых. Турпоездки",
-                        "Прокат"
-                },
-                {"1-к. квартиры",
-                        "2-к. квартиры",
-                        "3-к. квартиры",
-                        "4-,5-к. квартиры",
-                        "Гостинницы"
+        groups = new String[]
+                {
+                        "Услуги", "Сдаю", "Красота и здоровье", "Ищу работу", "Торжества", "Обучение",
+                        "Бюро находок", "Сниму", "Требуется"
                 }
 
-        };
+        ;
+
+        children = new String[][]
+
+                {
+                        {
+                                "Транспортные услуги",
+                                "Установка антенн",
+                                "Ремонт техники",
+                                "Ремонт. Отделка",
+                                "Строительство",
+                                "Сварка. Сантехника",
+                                "Электроработы",
+                                "Плотницкие",
+                                "Работа с металлом",
+                                "Памятники",
+                                "Юридические",
+                                "Риэлтерские",
+                                "Языковые переводы",
+                                "Швейные",
+                                "Медицинские",
+                                "Работа по дому",
+                                "Отдых. Турпоездки",
+                                "Прокат"
+                        },
+                        {
+                                "1-к. квартиры",
+                                "2-к. квартиры",
+                                "3-к. квартиры",
+                                "4-,5-к. квартиры",
+                                "Гостинницы"
+                        },
+                        {
+                                "Массаж",
+                                "Спортивные клубы",
+                                "Салоны красоты",
+                                "Медицинские центры"
+                        },
+                        {
+                                "Комп"
+                        },
+                        {
+                                "Тамада"
+                        },
+                        {
+                                "Английский язык"
+                        },
+                        {
+                                "Частные"
+                        },
+                        {
+                                "Дом"
+                        },
+                        {
+                                "Работники"
+                        }
+                };
+
         super.onCreate(savedInstanceState);
     }
 
@@ -93,7 +123,7 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(LAYOUT, container, false);
-        new DDTCategory().execute();
+//        new DDTCategory().execute();
         return rootView;
     }
 
@@ -105,16 +135,13 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
         lv.setAdapter(new ExpandableAdapter(groups, children, context));
         lv.setGroupIndicator(null);
 
+
     }
 
     public void setContext(Context context) {
         this.context = context;
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 
     private class DDTCategory extends AsyncTask<Void, Void, Void> {
         RecyclerView recyclerView;
@@ -125,18 +152,18 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
         int id;
         String subCategory;
         JSONArray childCategoriesArray;
-
+        HashMap<String, ArrayList<String>> categories = new HashMap<>();
+        ArrayList<String> subcategories = new ArrayList<>();
 
         @Override
         protected Void doInBackground(Void... params) {
 
             Request request = new Request.Builder()
-                    .url("http://192.168.0.114/api/v1/category/?format=json")
+                    .url("http://192.168.0.101/api/v1/category/?format=json")
                     .build();
 
             Response response = null;
-            HashMap<String, ArrayList<String>> categories = new HashMap<>();
-            ArrayList<String> subcategories = new ArrayList<>();
+
 
             try {
                 response = client.newCall(request).execute();
@@ -155,14 +182,13 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
                         subCategory = jsonObjectChild.getString("name");
                         subcategories.add(subCategory);
 
+                        Log.d("SUBCAT", subcategories + "");
+                        categories.put(category, subcategories);
+                        Log.d("ALLCAT", categories + "");
                     }
-
-                    subcategories = new ArrayList<>();
-                    categories.put(category, subcategories);
 
                 }
 
-                Log.d("CATEGORY", subCategory + "\n" + category);
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -170,6 +196,11 @@ public class CategoryFragment extends AbstractTabsFragment implements View.OnCli
                 e.printStackTrace();
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
         }
     }
 }

@@ -2,13 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +27,9 @@
                 android:gravity="center_horizontal|center"
                 android:text="Оставьте заявку на
 добавление рекламы"
-                android:textSize="18dp" />
+                android:textColor="@color/dark"
+                android:textSize="18dp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/edName"
@@ -35,7 +40,7 @@
                 android:ems="10"
                 android:hint="Ф.И.О"
                 android:inputType="textPersonName"
-                android:maxLength="10" />
+                android:maxLength="120" />
 
             <EditText
                 android:id="@+id/edNumber"
@@ -63,16 +68,6 @@
                 android:ems="10"
                 android:hint="Номер тел. 3 (необязательно)"
                 android:inputType="phone" />
-
-
-            <EditText
-                android:id="@+id/edMail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:ems="10"
-                android:hint="Электронная почта"
-                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/edTitle"
@@ -103,14 +98,28 @@
                 android:inputType="numberDecimal" />
 
             <Button
-                android:id="@+id/btnSent"
-                style="?attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
+                android:id="@+id/btnSelectCategory"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:text="Отправить"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_shape"
+                android:text="Выберите категорию"
+                android:textAllCaps="true"
                 android:textColor="@color/colorAccent" />
+
+            <Button
+                android:id="@+id/btnSent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button"
+                android:text="Отправить"
+                android:textAllCaps="true"
+                android:textColor="@color/white" />
         </LinearLayout>
+
     </ScrollView>
+
 
 </LinearLayout>

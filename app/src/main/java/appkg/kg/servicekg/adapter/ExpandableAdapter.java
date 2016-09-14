@@ -29,7 +29,7 @@ public class ExpandableAdapter extends BaseExpandableListAdapter {
 
     ArrayList list = new ArrayList();
 
-    String url = "http://192.168.0.105/api/v1/advert/?category__name=";
+    String url = "http://192.168.0.101/api/v1/advert/?category__name=";
     String format_json = "&format=json";
 
     public ExpandableAdapter(String[] groups, String[][] children, Context context) {

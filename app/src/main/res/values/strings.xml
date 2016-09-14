@@ -11,8 +11,31 @@
     <string name="res_cat6">Сантехнические услуги</string>
     <string name="res_cat7">category7</string>
     <string name="res_cat8">category8</string>
-    <string name="res_cat9">category9</string>
-    <string name="res_cat10">category10</string>
+    <string name="res_cat9">"Услуги", "Сдаю", "Красота и здоровье", "Ищу работу", "Торжества", "Обучение",
+                        "Бюро находок", "Сниму", "Требуется"</string>
+    <string name="res_cat10">"Транспортные услуги",
+"Установка антенн",
+"Ремонт техники",
+"Ремонт. Отделка",
+"Строительство",
+"Сварка. Сантехника",
+"Электроработы",
+"Плотницкие",
+"Работа с металлом",
+"Памятники",
+"Юридические",
+"Риэлтерские",
+"Языковые переводы",
+"Швейные",
+"Медицинские",
+"Работа по дому",
+"Отдых. Турпоездки",
+"Прокат"
+"1-к. квартиры",
+"2-к. квартиры",
+"3-к. квартиры",
+"4-,5-к. квартиры",
+"Гостинницы"</string>
     <string name="lorem_ipsum">Lorem ipsum dolor sit amet,
         consectetur adipiscing elit, sed do eiusmod tempor in
         cididunt ut labore
@@ -38,4 +61,7 @@
         tas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitati
         bus saepe eveniet, ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur
         a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

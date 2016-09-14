@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         order = data.getIntExtra("order", 0);
         category = data.getStringExtra("category");
 
-        Log.d("Cat123",""+category);
+        Log.d("Cat123", "" + category);
 
     }
 
@@ -81,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
         tvDescription.setText(description);
         tvCategory.setText(category);
         btnAvatar.setText(name.toUpperCase());
-        btnOrder.setText(String.valueOf(order)+" сом");
+        btnOrder.setText(String.valueOf(order) + " сом");
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,10 +99,11 @@ public class DetailActivity extends AppCompatActivity {
     private void initDefApp() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarDet);
         setSupportActionBar(toolbar);
+        assert toolbar != null;
+        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
     }
 
     @Override
