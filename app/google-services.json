@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "516344307428",
+    "project_id": "firebase-servicekg"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:516344307428:android:bd90379da21b93a8",
+        "android_client_info": {
+          "package_name": "appkg.kg.servicekg"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXJbGkhHbZ6eFq80LmA_Ev45TcW2B1OyY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-83734657-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
