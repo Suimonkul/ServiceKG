@@ -1,156 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="6dp"
+    android:background="@color/mainBackgroundDetail"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="appkg.kg.servicekg.activity.DetailActivity"
     tools:showIn="@layout/activity_detail">
 
-    <ScrollView
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="end"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_info" />
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/dtln"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="4dp">
 
-
-            <LinearLayout
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/divider">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-
-                    <Button
-                        android:id="@+id/btnAvatar"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_gravity="center"
-                        android:background="@drawable/ciclre"
-                        android:elevation="4dp"
-                        android:maxLength="1"
-                        android:maxLines="1"
-                        android:text="С"
-                        android:textColor="@color/white"
-                        android:textSize="50dp" />
-
-                    <TextView
-                        android:id="@+id/tvName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center|center_horizontal|center_vertical"
-                        android:text="Эрмек уулу Суймонкул"
-                        android:textColor="@color/white"
-                        android:textSize="22dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:gravity="center|center_horizontal|center_vertical"
-                        android:text="Транспортные услуги"
-                        android:textColor="@color/white"
-                        android:textSize="16dp" />
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:orientation="vertical">
-
-                <Button
-                    android:id="@+id/btnOrder"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="@drawable/button_shape"
-                    android:clickable="false"
-                    android:text="300 сом"
-                    android:textColor="@color/colorAccentPro"
-                    android:textSize="16dp" />
-
-                <Button
-                    android:id="@+id/btnCall"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="6dp"
-                    android:background="@drawable/button"
-                    android:text="Позвонить"
-                    android:textColor="@color/white"
-                    android:textSize="16dp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_marginBottom="6dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/divider" />
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/tvName"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="6dp"
-                        android:text="Описание"
-                        android:textColor="@color/dark"
-                        android:textSize="18dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="18dp"
+                        android:gravity="center"
+                        android:text="LOW BACK TOP
+Stars Leader"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <View
+                        android:layout_width="25dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tvOrder"
                         android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/divider" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="2140 som"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
 
                     <TextView
                         android:id="@+id/tvDetailDescription"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:autoLink="all"
+                        android:layout_margin="10dp"
                         android:text="@string/lorem_ipsum"
-                        android:textSize="18dp" />
+                        android:textAlignment="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="italic" />
 
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
-
+            </ScrollView>
 
         </LinearLayout>
-    </ScrollView>
+
+
+        <LinearLayout
+            android:id="@+id/dtln"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="6dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="@drawable/button"
+                android:scaleType="center"
+                android:src="@drawable/ic_info" />
+
+            <Button
+                android:id="@+id/btnCall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/button"
+                android:text="Позвонить" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:background="@drawable/button"
+                android:scaleType="center"
+                android:src="@drawable/ic_menu" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
 </LinearLayout>

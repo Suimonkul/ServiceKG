@@ -6,11 +6,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,8 +22,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
 
 import appkg.kg.servicekg.R;
 import appkg.kg.servicekg.adapter.ListAbstractAdapter;
@@ -37,8 +37,7 @@ import okhttp3.Response;
  */
 public class ADVListActivity extends AppCompatActivity {
     private static final int LAYOUT = R.layout.activity_advlist;
-    private DDT ddt;
-    private RecyclerScrollListener listener;
+    private static final int STYLE = R.style.AppDefault;
     int id;
     String title;
     String description;
@@ -59,29 +58,24 @@ public class ADVListActivity extends AppCompatActivity {
     Button btnRefresh;
     int total_count;
     ProgressBar progressBar;
-
+    private DDT ddt;
+    private RecyclerScrollListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(LAYOUT);
-        initToolbar();
+        setTheme(STYLE);
+
+//        initToolbar();
         initViews();
 
-        Info map = new Info(1, "Title", "Lorem Ipsum " +
-                "is simply dummy text of the p" +
-                "rinting and typesetting industr" +
-                "y. Lorem Ipsum has been the industry" +
-                "'s standard dummy text ever since the 1500" +
-                "s, when an unknown printer took a galley of t" +
-                "ype and scrambled it to make a type specimen b" +
-                "ook. It has survived not only five centuries," +
-                " but also the leap into electronic typesetting," +
-                " remaining essentially unchanged. It was popularised" +
-                " in the 1960s with the release of Letraset sheets conta" +
-                "ining Lorem Ipsum passages, and more recently with deskto" +
-                "p publishing software like Aldus PageMaker including versi" +
-                "ons of Lorem Ipsum.", "708517908", "708198686", "null", 2000, "Name");
+        String lorem = getResources().getString(R.string.lorem_ipsum);
+
+        Info map = new Info(1, "Title", lorem, "708517908", "708198686", "null", 2000, "Name");
         list.add(map);
 
         Intent getUrl = getIntent();
@@ -94,6 +88,9 @@ public class ADVListActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        LinearLayout ln = (LinearLayout) findViewById(R.id.lnAdv);
+        assert ln != null;
+        ln.setBackgroundColor(getResources().getColor(R.color.mainBackground));
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -110,19 +107,19 @@ public class ADVListActivity extends AppCompatActivity {
                 DDT_load(current_page);
             }
         };
-//        recyclerView.addOnScrollListener(listener);
+        recyclerView.addOnScrollListener(listener);
     }
 
-    private void initToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarAdv);
-        setSupportActionBar(toolbar);
-        assert toolbar != null;
-        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Реклама");
-    }
+//    private void initToolbar() {
+//        ImageView toolbar =
+//        setSupportActionBar(toolbar);
+//        assert toolbar != null;
+//        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
+//        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setTitle("Реклама");
+//    }
 
 
     public void UrlChanged(String newUrl) {
@@ -173,6 +170,27 @@ public class ADVListActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        Log.d("TAG", "Task Stop Back");
+        finish();
+        overridePendingTransition(R.anim.activity_down_up_close_enter, R.anim.activity_down_up_close_exit);
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                new DDT(recyclerView, "", 0).cancel(true);
+                finish();
+                overridePendingTransition(R.anim.activity_down_up_close_enter, R.anim.activity_down_up_close_exit);
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
 
     private class DDT extends AsyncTask<Void, Void, Void> {
 
@@ -195,6 +213,7 @@ public class ADVListActivity extends AppCompatActivity {
             Toast.makeText(ADVListActivity.this, "Download", Toast.LENGTH_SHORT).show();
             progress.setVisibility(View.VISIBLE);
             super.onPreExecute();
+//            String backUrl = "\"https://guarded-retreat-76092.herokuapp.com/api/v1/advert/?format=json\"";
         }
 
         @Override
@@ -202,43 +221,56 @@ public class ADVListActivity extends AppCompatActivity {
 
 //            Log.d("CurrentPage", url);
             Request request = new Request.Builder()
-                    .url("https://guarded-retreat-76092.herokuapp.com/api/v1/advert/?format=json")
+                    .url("http://7clicks.net/api/posts?page=" + page)
                     .build();
 
             Response response = null;
 
+
             try {
                 response = client.newCall(request).execute();
-                assert response != null;
                 dataJsonObj = new JSONObject(response.body().string());
-                JSONArray jsonArray = dataJsonObj.getJSONArray("objects");
+                JSONArray jsonArray = dataJsonObj.getJSONArray("posts");
                 JSONObject meta = dataJsonObj.getJSONObject("meta");
-                total_count = meta.getInt("total_count");
+//                total_count = meta.getInt("total_count");
+                Log.d("adada", "start");
+                Log.d("APILOG", dataJsonObj + "ada" + meta + response);
 
 
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                    active = jsonObject.getBoolean("active");
+//                    active = jsonObject.getBoolean("active");
 
-                    if (active) {
-                        id = jsonObject.getInt("id");
-                        title = jsonObject.getString("title");
-                        description = jsonObject.getString("description");
-                        phone = jsonObject.getString("phone");
-                        phone_two = jsonObject.getString("phone_two");
-                        phone_three = jsonObject.getString("phone_three");
-                        order = jsonObject.getInt("order");
-                        name = jsonObject.getString("name");
+//                    if (active) {
+                    id = jsonObject.getInt("id");
+                    title = jsonObject.getString("title");
+                    description = jsonObject.getString("body");
+                    phone = jsonObject.getString("phone_number");
+//                    phone_two = jsonObject.getString("phone_two");
+//                    phone_three = jsonObject.getString("phone_three");
+//                    order = jsonObject.getInt("order");
+//                    JSONArray img = jsonObject.getJSONArray("images");
+//
+//
+//                    for (int id = 0; id < img.length(); id++) {
+//                        JSONObject url = img.getJSONObject(id);
+//
+//
+//                        name = url.getString("url");
+//                        Log.d("IMG", name);
+//
+//
+//                    }
 
-                        Info info = new Info(id, title, description, phone, phone_two, phone_three, order, name);
-                        list.add(info);
-                    }
+
+                    Info info = new Info(id, title, description, phone, phone_two, phone_three, order, name);
+                    list.add(info);
+//                    }
 
 
                 }
-                long seed = System.nanoTime();
-                Collections.shuffle(list, new Random(seed));
+
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -249,6 +281,8 @@ public class ADVListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void s) {
+//            long seed = System.nanoTime();
+//            Collections.shuffle(list, new Random(seed));
             if (list.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
                 progress.setVisibility(View.GONE);
@@ -260,29 +294,6 @@ public class ADVListActivity extends AppCompatActivity {
             }
             Log.d("TAG", "Task Stop");
         }
-
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        Log.d("TAG", "Task Stop Back");
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                new DDT(recyclerView, "", 0).cancel(true);
-                finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
 
     }
 }

@@ -4,18 +4,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import appkg.kg.servicekg.R;
+import appkg.kg.servicekg.model.Info;
 
 /**
  * Created by Suimonkul on 26.06.2016.
@@ -33,19 +35,23 @@ public class DetailActivity extends AppCompatActivity {
     Intent calling = new Intent(Intent.ACTION_VIEW);
 
 
-    private TextView tvName, tvDescription, tvCategory;
-    private Button btnCall, btnOrder, btnAvatar;
+    private TextView tvName, tvDescription, tvOrder;
+    private Button btnCall;
 
     private String name, description, phone, phone_two, phone_three, category;
     private int order;
+
+    private Info info;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setTheme(STYLE);
         setContentView(LAYOUT);
-        initDefApp();
         initLogic();
         initView();
 
@@ -53,15 +59,14 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void initLogic() {
-        Intent data = getIntent();
+        info = (Info) getIntent().getSerializableExtra("info");
 
-        name = data.getStringExtra("name");
-        description = data.getStringExtra("desc");
-        phone = data.getStringExtra("phone");
-        phone_two = data.getStringExtra("phone_two");
-        phone_three = data.getStringExtra("phone_three");
-        order = data.getIntExtra("order", 0);
-        category = data.getStringExtra("category");
+        name = info.getTitle();
+        description = info.getDescription();
+        phone = info.getPhone();
+        phone_two = info.getPhone_two();
+        phone_three = info.getPhone_three();
+        order = info.getOrder();
 
         Log.d("Cat123", "" + category);
 
@@ -72,16 +77,12 @@ public class DetailActivity extends AppCompatActivity {
 
         tvName = (TextView) findViewById(R.id.tvName);
         tvDescription = (TextView) findViewById(R.id.tvDetailDescription);
-        tvCategory = (TextView) findViewById(R.id.tvCategory);
-        btnAvatar = (Button) findViewById(R.id.btnAvatar);
         btnCall = (Button) findViewById(R.id.btnCall);
-        btnOrder = (Button) findViewById(R.id.btnOrder);
+        tvOrder = (TextView) findViewById(R.id.tvOrder);
 
         tvName.setText(name);
         tvDescription.setText(description);
-        tvCategory.setText(category);
-        btnAvatar.setText(name.toUpperCase());
-        btnOrder.setText(String.valueOf(order) + " сом");
+        tvOrder.setText(String.valueOf(order) + " сом");
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,20 +97,10 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
-    private void initDefApp() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbarDet);
-        setSupportActionBar(toolbar);
-        assert toolbar != null;
-        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+        overridePendingTransition(R.anim.activity_down_up_close_enter, R.anim.activity_down_up_close_exit);
     }
 
     @Override
@@ -118,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                overridePendingTransition(R.anim.activity_down_up_close_enter, R.anim.activity_down_up_close_exit);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -158,17 +149,17 @@ public class DetailActivity extends AppCompatActivity {
             case FIRST:
                 calling.setData(Uri.parse("tel:" + PREFIX_PHONE + phone));
                 startActivity(calling);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
                 break;
             case SECOND:
                 calling.setData(Uri.parse("tel:" + PREFIX_PHONE + phone_two));
                 startActivity(calling);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
                 break;
             case THIRD:
                 calling.setData(Uri.parse("tel:" + PREFIX_PHONE + phone_three));
                 startActivity(calling);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
                 break;
         }
         return false;

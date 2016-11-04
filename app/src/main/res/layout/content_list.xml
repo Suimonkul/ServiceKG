@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lnAdv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="6dp"
+    android:background="@color/mainBackground"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".activity.ADVListActivity"
     tools:showIn="@layout/activity_advlist">
 
+
+    <ImageView
+        android:id="@+id/toolbarAdv"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:src="@drawable/ic_menu" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/mainBackground"
-        android:visibility="gone">
+        android:visibility="visible">
 
     </android.support.v7.widget.RecyclerView>
 
@@ -43,16 +51,16 @@
             android:layout_below="@+id/textView"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:background="@drawable/button_shape"
+            android:background="@drawable/button"
             android:text="Повторить"
-            android:textColor="@color/colorAccent" />
+            android:textColor="@color/colorPrimary" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/progress"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ProgressBar
             android:id="@+id/progressBar"
