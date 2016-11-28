@@ -26,5 +26,7 @@ public class FavoriteActivity extends AppCompatActivity {
 
     private void initUI() {
 
+
+
     }
 }
