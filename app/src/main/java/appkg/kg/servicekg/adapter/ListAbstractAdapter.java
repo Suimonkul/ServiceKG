@@ -3,12 +3,12 @@ package appkg.kg.servicekg.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -53,7 +53,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
             holder.tvTitle.setText(info.getTitle());
             holder.tvDescription.setText(info.getDescription());
             holder.tvOrder.setText("Цена : " + info.getOrder() + " сом");
-            holder.cardView.setOnClickListener(new View.OnClickListener() {
+            holder.ln_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, DetailActivity.class);
@@ -64,7 +64,7 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
                 }
             });
         } else {
-            holder.cardView.setVisibility(View.GONE);
+            holder.ln_item.setVisibility(View.GONE);
         }
 
     }
@@ -81,13 +81,13 @@ public class ListAbstractAdapter extends RecyclerView.Adapter<ListAbstractAdapte
 
     public static class PostHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
+        LinearLayout ln_item;
         TextView tvTitle, tvDescription, tvOrder;
 
         public PostHolder(View itemView) {
             super(itemView);
 
-            cardView = (CardView) itemView.findViewById(R.id.cardView);
+            ln_item = (LinearLayout) itemView.findViewById(R.id.ln_item);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
             tvOrder = (TextView) itemView.findViewById(R.id.tvOrder);

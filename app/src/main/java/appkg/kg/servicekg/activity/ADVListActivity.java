@@ -22,6 +22,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import appkg.kg.servicekg.R;
 import appkg.kg.servicekg.adapter.ListAbstractAdapter;
@@ -50,7 +52,8 @@ public class ADVListActivity extends AppCompatActivity {
     int position;
     RecyclerView recyclerView;
     ListAbstractAdapter adapter;
-    ArrayList<Info> list = new ArrayList<>();
+    ArrayList dynamic_list = new ArrayList<>();
+    ArrayList<Info> static_list = new ArrayList<>();
     View nonConnection;
     View progress;
     String defUrl;
@@ -76,7 +79,7 @@ public class ADVListActivity extends AppCompatActivity {
         String lorem = getResources().getString(R.string.lorem_ipsum);
 
         Info map = new Info(1, "Title", lorem, "708517908", "708198686", "null", 2000, "Name");
-        list.add(map);
+        dynamic_list.add(map);
 
         Intent getUrl = getIntent();
         String newUrl = getUrl.getStringExtra("url_change");
@@ -95,7 +98,7 @@ public class ADVListActivity extends AppCompatActivity {
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new ListAbstractAdapter(list);
+        adapter = new ListAbstractAdapter(static_list);
         nonConnection = findViewById(R.id.noInternet);
         progress = findViewById(R.id.progress);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -110,21 +113,9 @@ public class ADVListActivity extends AppCompatActivity {
         recyclerView.addOnScrollListener(listener);
     }
 
-//    private void initToolbar() {
-//        ImageView toolbar =
-//        setSupportActionBar(toolbar);
-//        assert toolbar != null;
-//        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
-//        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setTitle("Реклама");
-//    }
-
 
     public void UrlChanged(String newUrl) {
-//        Log.d("URLCHANGE", newUrl);
-        list.clear();
+        dynamic_list.clear();
         adapter.notifyDataSetChanged();
         recyclerView.setAdapter(adapter);
         defUrl = newUrl;
@@ -142,7 +133,7 @@ public class ADVListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (Utils.isConnected(ADVListActivity.this)) {
-                    list.clear();
+                    dynamic_list.clear();
                     recyclerView.setAdapter(adapter);
                     DDT_load(current_page);
                     new DDT(recyclerView, defUrl, current_page);
@@ -219,9 +210,16 @@ public class ADVListActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-//            Log.d("CurrentPage", url);
+            dynamic_list.clear();
+
+            Random rand = new Random();
+
+            int rand_page = rand.nextInt(50) + 1;
+
+            Log.d("Random-count", String.valueOf(rand_page));
+
             Request request = new Request.Builder()
-                    .url("http://7clicks.net/api/posts?page=" + page)
+                    .url("http://7clicks.net/api/posts?page=" + rand_page)
                     .build();
 
             Response response = null;
@@ -232,7 +230,7 @@ public class ADVListActivity extends AppCompatActivity {
                 dataJsonObj = new JSONObject(response.body().string());
                 JSONArray jsonArray = dataJsonObj.getJSONArray("posts");
                 JSONObject meta = dataJsonObj.getJSONObject("meta");
-//                total_count = meta.getInt("total_count");
+                total_count = meta.getInt("total_pages");
                 Log.d("adada", "start");
                 Log.d("APILOG", dataJsonObj + "ada" + meta + response);
 
@@ -263,11 +261,13 @@ public class ADVListActivity extends AppCompatActivity {
 //
 //                    }
 
-
                     Info info = new Info(id, title, description, phone, phone_two, phone_three, order, name);
-                    list.add(info);
-//                    }
 
+                    dynamic_list.add(info);
+                    long seed = System.nanoTime();
+                    Collections.shuffle(dynamic_list, new Random(seed));
+
+//                    }
 
                 }
 
@@ -281,14 +281,14 @@ public class ADVListActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Void s) {
-//            long seed = System.nanoTime();
-//            Collections.shuffle(list, new Random(seed));
-            if (list.isEmpty()) {
+
+            if (dynamic_list.isEmpty()) {
                 recyclerView.setVisibility(View.GONE);
                 progress.setVisibility(View.GONE);
                 nonConnection.setVisibility(View.VISIBLE);
             } else if (!isCancelled() && adapter != null) {
                 progress.setVisibility(View.GONE);
+                static_list.addAll(dynamic_list);
                 recyclerView.setVisibility(View.VISIBLE);
                 adapter.notifyDataSetChanged();
             }

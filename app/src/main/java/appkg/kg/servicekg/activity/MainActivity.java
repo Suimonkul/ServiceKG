@@ -3,13 +3,12 @@ package appkg.kg.servicekg.activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     boolean doubleBackToExitPressedOnce = false;
     DrawerLayout drawerLayout;
-    Toolbar toolbar;
 
 
     @Override
@@ -44,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         setTheme(STYLE);
         setContentView(LAYOUT);
 
-//        initToolbar();
 
         initNavigationDrawer();
         initActionBar();
@@ -78,26 +75,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void initNavigationDrawer() {
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation);
         assert navigationView != null;
-        navigationView.setNavigationItemSelectedListener
-                (new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.inflateHeaderView(R.layout.navigation_header);
 
-                     @Override
-                     public boolean onNavigationItemSelected(MenuItem item) {
-                         drawerLayout.closeDrawers();
-                         switch (item.getItemId()) {
-                             case R.id.favorite:
-                                 break;
-                         }
-
-                         return true;
-                     }
-                 }
-
-                );
     }
+
+    public void onClickHeader(View v) {
+        drawerLayout.closeDrawers();
+        switch (v.getId()) {
+            case R.id.add_advert:
+                Toast.makeText(this, "Nv Header", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
 
     private void initCategory() {
 
@@ -107,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         categories.add(category_uslugi);
         Category category_business = new Category(2, "Бизнес", R.drawable.ic_menu, "YSaja");
         categories.add(category_business);
-        Category category_service = new Category(3, "Сервис", R.drawable.ciclre, "YSaja");
+        Category category_service = new Category(3, "Сервис", R.color.green_dark, "YSaja");
         categories.add(category_service);
         categories.add(category_uslugi);
         categories.add(category_service);
@@ -127,42 +119,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            return;
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+            Toast.makeText(MainActivity.this, "Нажмите еще раз", Toast.LENGTH_SHORT).show();
+            this.doubleBackToExitPressedOnce = true;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+
+                }
+            }, 1000);
         }
 
-        this.doubleBackToExitPressedOnce = true;
-
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce = false;
-            }
-        }, 800);
     }
-
-
-//    private void initToolbar() {
-//        toolbar = (Toolbar) findViewById(R.id.toolBar);
-//        toolbar.setTitleTextColor(getResources().getColor(R.color.dark));
-//        toolbar.inflateMenu(R.menu.about_menu);
-//        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.about_opener:
-//                        Intent intent = new Intent(MainActivity.this, ADVListActivity.class);
-//                        startActivity(intent);
-//                        overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-//    }
 
 
 }

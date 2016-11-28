@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_margin="6dp"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
+    <LinearLayout
+        android:id="@+id/ln_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="0dp"
-        android:orientation="vertical"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:cardMaxElevation="0dp">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.2dp"
-            android:background="@color/white" />
+        android:background="@drawable/button"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,7 +19,7 @@
 
             <TextView
                 android:id="@+id/tvTitle"
-                style="@style/Base.TextAppearance.AppCompat.Large.Inverse"
+                style="@style/Base.TextAppearance.AppCompat.Large"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -34,11 +27,12 @@
                 android:gravity="start"
                 android:maxLines="1"
                 android:text="Title sacdhiuasc sadfdasf sdafsasdf asdfasffrsg jgkgujgt rsdfgvb grdf acacaascsachh"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tvDescription"
-                style="@style/TextAppearance.AppCompat.Inverse"
+                style="@style/TextAppearance.AppCompat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -48,24 +42,18 @@
                 android:text="Deaescfaslvnskdnsvdssssdssvsvvssvdshgjsgcasvscvcvhjuvffvvuxiefwuywiywviywvdksfnsoichsohdoiywgiwscription"
                 android:textSize="14sp" />
 
-
             <TextView
                 android:id="@+id/tvOrder"
-                style="@style/TextAppearance.AppCompat.Inverse"
+                style="@style/TextAppearance.AppCompat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:gravity="start"
                 android:text="September 1, 2016" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.2dp"
-                android:background="@color/white" />
-
         </LinearLayout>
 
 
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 
 </LinearLayout>

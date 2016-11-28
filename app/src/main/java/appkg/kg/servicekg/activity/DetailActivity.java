@@ -1,22 +1,23 @@
 package appkg.kg.servicekg.activity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import appkg.kg.servicekg.R;
+import appkg.kg.servicekg.database.DataHelper;
 import appkg.kg.servicekg.model.Info;
 
 /**
@@ -28,17 +29,16 @@ public class DetailActivity extends AppCompatActivity {
     private static final int LAYOUT = R.layout.activity_detail;
     private static final int STYLE = R.style.AppDefault;
     private static final String PREFIX_PHONE = "0";
-    final int FIRST = 0;
-    final int SECOND = 1;
-    final int THIRD = 2;
-    final int FOUR = 3;
-    Intent calling = new Intent(Intent.ACTION_VIEW);
+    private boolean isExist;
+    private DataHelper dataHelper;
 
 
-    private TextView tvName, tvDescription, tvOrder;
+    private TextView tvName, tvDescription, tvOrder, tvNumber;
     private Button btnCall;
+    private ImageView detail_close;
+    private ImageButton share, add_favorite;
 
-    private String name, description, phone, phone_two, phone_three, category;
+    private String name, description, phone;
     private int order;
 
     private Info info;
@@ -52,47 +52,107 @@ public class DetailActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setTheme(STYLE);
         setContentView(LAYOUT);
+        info = (Info) getIntent().getSerializableExtra("info");
+        dataHelper = new DataHelper(this);
         initLogic();
         initView();
 
 
+        isExist = dataHelper.isExist(info.getId());
+        if (isExist) {
+            add_favorite.setImageResource(R.drawable.ic_star_active);
+        } else {
+            add_favorite.setImageResource(R.drawable.ic_star_unactive);
+        }
+
     }
 
     private void initLogic() {
-        info = (Info) getIntent().getSerializableExtra("info");
+
 
         name = info.getTitle();
         description = info.getDescription();
         phone = info.getPhone();
-        phone_two = info.getPhone_two();
-        phone_three = info.getPhone_three();
         order = info.getOrder();
-
-        Log.d("Cat123", "" + category);
 
     }
 
 
     private void initView() {
 
+        detail_close = (ImageView) findViewById(R.id.detail_close);
+
         tvName = (TextView) findViewById(R.id.tvName);
         tvDescription = (TextView) findViewById(R.id.tvDetailDescription);
         btnCall = (Button) findViewById(R.id.btnCall);
         tvOrder = (TextView) findViewById(R.id.tvOrder);
+        tvNumber = (TextView) findViewById(R.id.tvNumber);
+        share = (ImageButton) findViewById(R.id.share_advert);
+        add_favorite = (ImageButton) findViewById(R.id.add_favorite);
 
         tvName.setText(name);
         tvDescription.setText(description);
         tvOrder.setText(String.valueOf(order) + " сом");
+        tvNumber.setText(phone);
 
         btnCall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerForContextMenu(v);
-                openContextMenu(v);
-                unregisterForContextMenu(v);
+                Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                if (ActivityCompat.checkSelfPermission(DetailActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    //request permission from user if the app hasn't got the required permission
+                    ActivityCompat.requestPermissions(DetailActivity.this,
+                            new String[]{Manifest.permission.CALL_PHONE},   //request specific permission from user
+                            10);
+                    return;
+                } else {     //have got permission
+                    try {
+                        startActivity(intent);  //call activity and make phone call
+                    } catch (android.content.ActivityNotFoundException ex) {
+                        Toast.makeText(getApplicationContext(), "yourActivity is not founded", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                startActivity(intent);
+
             }
         });
 
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent();
+                sendIntent.putExtra(Intent.EXTRA_SUBJECT, "ServiceKG");
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, name + "\n Номер: " + phone + "\n\n\n\n" + "Где я нашел эту информацию!?\nСкачай приложение ServiceKG");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Поделиться"));
+            }
+        });
+
+
+        add_favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                add_favorite.setEnabled(false);
+                if (isExist) {
+                    dataHelper.removeAdvert(info.getId());
+                    add_favorite.setImageResource(R.drawable.ic_star_unactive);
+                    isExist = false;
+                } else {
+                    dataHelper.saveAdvert(info);
+                    add_favorite.setImageResource(R.drawable.ic_star_active);
+                    isExist = true;
+                }
+                add_favorite.setEnabled(true);
+            }
+        });
+
+        detail_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -103,66 +163,5 @@ public class DetailActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.activity_down_up_close_enter, R.anim.activity_down_up_close_exit);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                overridePendingTransition(R.anim.activity_down_up_close_enter, R.anim.activity_down_up_close_exit);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.context_menu, menu);
-        menu.setHeaderTitle("Выберите номер телефона:");
-
-        if (phone.equals("null")) {
-            menu.removeItem(FIRST);
-        } else {
-            menu.add(Menu.NONE, FIRST, 0, PREFIX_PHONE + phone);
-        }
-        if (phone_two.equals("null")) {
-            Toast.makeText(DetailActivity.this, "Phone 2 is null", Toast.LENGTH_SHORT).show();
-            menu.removeItem(SECOND);
-        } else {
-            menu.add(0, SECOND, 0, PREFIX_PHONE + phone_two);
-        }
-        if (phone_three.equals("null")) {
-            Toast.makeText(DetailActivity.this, "Phone 3 is null", Toast.LENGTH_SHORT).show();
-            menu.removeItem(THIRD);
-        } else {
-            menu.add(0, THIRD, 0, PREFIX_PHONE + phone_three);
-        }
-
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case FIRST:
-                calling.setData(Uri.parse("tel:" + PREFIX_PHONE + phone));
-                startActivity(calling);
-                overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
-                break;
-            case SECOND:
-                calling.setData(Uri.parse("tel:" + PREFIX_PHONE + phone_two));
-                startActivity(calling);
-                overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
-                break;
-            case THIRD:
-                calling.setData(Uri.parse("tel:" + PREFIX_PHONE + phone_three));
-                startActivity(calling);
-                overridePendingTransition(R.anim.activity_down_up_enter, R.anim.activity_down_up_exit);
-                break;
-        }
-        return false;
-    }
 
 }

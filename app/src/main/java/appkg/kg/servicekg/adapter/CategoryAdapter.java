@@ -51,7 +51,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.PostHo
 
             final Category category = list.get(position);
 
-
             holder.title.setText(category.getName());
             Picasso.with(context).load(category.getImage()).into(holder.image);
             holder.rlCategory.setOnClickListener(new View.OnClickListener() {

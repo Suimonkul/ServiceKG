@@ -5,28 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="6dp"
-    android:background="@color/mainBackground"
+    android:background="@color/itemBG"
     android:orientation="vertical"
     tools:context=".activity.ADVListActivity"
     tools:showIn="@layout/activity_advlist">
-
-
-    <ImageView
-        android:id="@+id/toolbarAdv"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary"
-        android:src="@drawable/ic_menu" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/mainBackground"
+        android:background="@color/itemBG"
+        android:fadeScrollbars="true"
         android:visibility="visible">
 
     </android.support.v7.widget.RecyclerView>
-
 
     <RelativeLayout
         android:id="@+id/noInternet"

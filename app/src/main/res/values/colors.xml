@@ -8,7 +8,9 @@
     <color name="green_dark">#006401</color>
     <color name="white">#ffffff</color>
     <color name="dark">#686868</color>
-    <color name="mainBackground">#37474f</color>
-    <color name="colorGrayTrans">#48000000</color>
+    <color name="mainBackground">#546e7a</color>
+    <color name="itemBG">#c5d2db</color>
     <color name="mainBackgroundDetail">#b0bec5</color>
+    <color name="transparent">#b9000000</color>
+    <color name="colorYellow">#ffd600</color>
 </resources>

@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:fitsSystemWindows="true"
     tools:context="appkg.kg.servicekg.activity.DetailActivity">
 
-
     <include layout="@layout/content_list" />
 
-</android.support.design.widget.CoordinatorLayout>
+    <LinearLayout
+        android:id="@+id/search_bar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="6dp"
+        android:background="@color/itemBG"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/ed_search"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="50"
+            android:background="@drawable/edit_text_box"
+            android:hint="Введите запрос ..."
+            android:inputType="textCapWords"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/search_img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="0.2"
+            android:background="@color/colorPrimary"
+            android:clickable="true"
+            android:src="@drawable/ic_search" />
+    </LinearLayout>
+</RelativeLayout>

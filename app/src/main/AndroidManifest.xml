@@ -40,6 +40,8 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="cc84ad652787e62bd3ae27bbfe7f7ab3730a9a8d" />
+
+        <activity android:name=".activity.FavoriteActivity"></activity>
     </application>
 
 </manifest>

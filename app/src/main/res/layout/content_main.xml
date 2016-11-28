@@ -38,7 +38,7 @@
             android:layout_weight="1"
             android:adjustViewBounds="true"
             android:padding="12dp"
-            android:src="@drawable/ic_info" />
+            android:src="@drawable/ic_star_favorite" />
 
     </LinearLayout>
 

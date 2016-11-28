@@ -26,6 +26,11 @@ public class Info implements Serializable {
         this.name = name;
     }
 
+    public Info(int dbId) {
+        this.id = dbId;
+
+    }
+
     public String getName() {
         return name;
     }
